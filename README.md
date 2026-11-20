@@ -10,17 +10,14 @@ In this repository, we plan to share research projects and findings from MiniMax
 The [`Cryptography`](./Cryptography/) directory contains results in cryptography and cryptanalysis, along with papers and supporting artifacts. These results were primarily discovered by our internal model.
 
 - **Released on November 20, 2026**: Cryptanalysis Results.
-  - **Attacks on frontier schemes**: CAESAR winner [COLM](./Cryptography/COLM/), NSA block cipher [ARADI](./Cryptography/ARADI/) and post-quantum signature [SBC-VOLE](./Cryptography/SBC-VOLE/).
-  - **Optimized solvers**: [TII McEliece Challenges](./Cryptography/TII-McEliece/) and Lattice Isomorphism Problem for [HAWK](./Cryptography/HAWK/).
-  - **NIST competition candidates (practical breaks)**: SHA-3 candidates [Waterfall](./Cryptography/Waterfall/) and [Blender](./Cryptography/Blender/), and PQC KEM candidates [LOCKER & ROLLO](./Cryptography/LOCKER-ROLLO/).
 
   > These findings are released as part of our auto-cryptanalysis project by the MiniMax Cyber Team: **Lili Tang**<sup>\*</sup>, **Hao Jiang**<sup>\*</sup>, **Yansong Feng**<sup>\*</sup>, **Tianyi Li**<sup>†</sup>, and **Guancheng Li**<sup>†</sup> (<sup>\*</sup>Core Contributors; <sup>†</sup>Project Leads). We hope these results offer useful insights into automated cryptanalysis and help strengthen the security of cryptographic schemes. You can reach out to us by email at [cyber@minimax.io](mailto:cyber@minimax.io).
 
   | Target | Category | Key Result | Artifacts |
   | :--- | :--- | :--- | :--- |
-  | [**ARADI**](./Cryptography/ARADI/) | Block Cipher | Key recovery up to $`8`$ rounds ($`\le 16\text{ s}`$), $`2^{54.8}`$ $`9`$-round attack, and improved $`10`$–$`12`$-round all-key integral attacks | [Paper](./Cryptography/ARADI/paper/main.pdf) · [Code](./Cryptography/ARADI/artifacts/) |
   | [**COLM**](./Cryptography/COLM/) | AEAD | Nonce-respecting ciphertext forgery on CAESAR winner $`\mathsf{COLM}_0`$ with $`2`$ encryption queries | [Paper](./Cryptography/COLM/paper/main.pdf) · [Code](./Cryptography/COLM/artifacts/) |
   | [**TII McEliece**](./Cryptography/TII-McEliece/) | Code-Based PKE | $`94`$ Track-2 private keys recovered on TII McEliece challenges ($`\lambda_{\text{TII}} \in [83, 254]`$), including $`55`$ first-blood solutions and up to $`43{,}400\times`$ speedups | [Paper](./Cryptography/TII-McEliece/paper/main.pdf) · [Code](./Cryptography/TII-McEliece/artifacts/) |
+  | [**ARADI**](./Cryptography/ARADI/) | Block Cipher | Key recovery up to $`8`$ rounds ($`\le 16\text{ s}`$), $`2^{54.8}`$ $`9`$-round attack, and improved $`10`$–$`12`$-round all-key integral attacks on NSA block cipher ARADI | [Paper](./Cryptography/ARADI/paper/main.pdf) · [Code](./Cryptography/ARADI/artifacts/) |
   | [**SBC-VOLE**](./Cryptography/SBC-VOLE/) | Post-Quantum Signature | Passive $`1`$-signature secret-key recovery in $`0.06\text{ s}`$ across all $`\mathsf{SBC}_{\mathsf{VOLE}}`$ and $`\mathsf{SBC}_{\mathsf{VOLE}}^{\mathsf{M}}`$ parameter sets | [Paper](./Cryptography/SBC-VOLE/paper/main.pdf) · [Code](./Cryptography/SBC-VOLE/artifacts/) |
   | [**HAWK**](./Cryptography/HAWK/) | Post-Quantum Signature | Secret-key recovery on `HAWK-256` in $`30.9\text{ min}`$ ($`690\times`$ speedup) and $`9.3`$–$`23.7`$-bit security reductions across `HAWK-256/512/1024` | [Paper](./Cryptography/HAWK/paper/main.pdf) · [Code](./Cryptography/HAWK/artifacts/) |
   | [**Blender**](./Cryptography/Blender/) | Hash Function | Collisions on `Blender-256` ($`0.73\text{ s}`$) and $`2^{35.9}`$ preimage attack | [Paper](./Cryptography/Blender/paper/main.pdf) · [Code](./Cryptography/Blender/artifacts/) |
