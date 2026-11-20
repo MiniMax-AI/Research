@@ -1,0 +1,59 @@
+
+########## Part 1 : 1-round-lift identity ##########
+  <alpha,Q_(r+1)> = sum_b mu_b <nu,pi(Z_r)_b> for alpha = Lambda_j^T(mu (x) nu): True
+  H_nu ANFs: {'w': 'w ^ wy ^ xy ^ xz ^ wyz', 'x': 'x ^ wy', 'y': 'y ^ wy ^ wxy ^ wz', 'z': 'wy ^ xy ^ z'}
+
+########## Part 2 : ready columns, 160 keys ##########
+  [mk   ] (a) all 4 rows of Q_5 balanced: 32 columns [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+  [mk   ] (b) cube sum of Q_5[w][b]*Q_5[y][b] = 0: 12 columns [2, 5, 10, 13, 14, 18, 20, 21, 23, 25, 29, 31]
+  [mk   ] (c) cube sum of Q_5[x][b]*Q_5[y][b] = 0: 12 columns [2, 5, 10, 13, 14, 18, 20, 21, 23, 25, 29, 31]
+  [mk   ] READY = a & b & c: 12 columns [2, 5, 10, 13, 14, 18, 20, 21, 23, 25, 29, 31]
+  [indep] (a) all 4 rows of Q_5 balanced: 32 columns [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+  [indep] (b) cube sum of Q_5[w][b]*Q_5[y][b] = 0: 12 columns [2, 5, 10, 13, 14, 18, 20, 21, 23, 25, 29, 31]
+  [indep] (c) cube sum of Q_5[x][b]*Q_5[y][b] = 0: 12 columns [2, 5, 10, 13, 14, 18, 20, 21, 23, 25, 29, 31]
+  [indep] READY = a & b & c: 12 columns [2, 5, 10, 13, 14, 18, 20, 21, 23, 25, 29, 31]
+  claimed: [2, 5, 10, 13, 14, 18, 20, 21, 23, 25, 29, 31]
+
+########## Part 3 : nullity, 160 keys per mode ##########
+
+--- cube (0,5,19,24) d=16 R=7
+    Q_5 [mk   ] rank=  0 nullity=128 (predicted nullity 128) -> MATCH
+    Q_6 [mk   ] rank= 86 nullity= 42 (predicted nullity 42) -> MATCH
+    Q_7 [mk   ] rank=128 nullity=  0 (predicted nullity 0) -> MATCH
+    Q_5 [indep] rank=  0 nullity=128 (predicted nullity 128) -> MATCH
+    Q_6 [indep] rank= 86 nullity= 42 (predicted nullity 42) -> MATCH
+    Q_7 [indep] rank=128 nullity=  0 (predicted nullity 0) -> MATCH
+    -- Part 4 : predicted masks
+       Q_5: 64 of 64 predicted masks Lambda_0^T(e_b (x) e_x/e_z) annihilate every one of the 160 cube sums
+       Q_6: 24 of 64 predicted masks Lambda_1^T(e_b (x) e_x/e_z) annihilate every one of the 160 cube sums
+       Q_7: 0 of 64 predicted masks Lambda_2^T(e_b (x) e_x/e_z) annihilate every one of the 160 cube sums
+
+--- cube (0,5,19,24,29) d=20 R=8
+    Q_5 [mk   ] rank=  0 nullity=128 (predicted nullity 128) -> MATCH
+    Q_6 [mk   ] rank= 62 nullity= 66 (predicted nullity 66) -> MATCH
+    Q_7 [mk   ] rank=128 nullity=  0 (predicted nullity 0) -> MATCH
+    Q_8 [mk   ] rank=128 nullity=  0 (predicted nullity 0) -> MATCH
+    Q_5 [indep] rank=  0 nullity=128 (predicted nullity 128) -> MATCH
+    Q_6 [indep] rank= 62 nullity= 66 (predicted nullity 66) -> MATCH
+    Q_7 [indep] rank=128 nullity=  0 (predicted nullity 0) -> MATCH
+    Q_8 [indep] rank=128 nullity=  0 (predicted nullity 0) -> MATCH
+    -- Part 4 : predicted masks
+       Q_5: 64 of 64 predicted masks Lambda_0^T(e_b (x) e_x/e_z) annihilate every one of the 160 cube sums
+       Q_6: 46 of 64 predicted masks Lambda_1^T(e_b (x) e_x/e_z) annihilate every one of the 160 cube sums
+       Q_7: 0 of 64 predicted masks Lambda_2^T(e_b (x) e_x/e_z) annihilate every one of the 160 cube sums
+       Q_8: 0 of 64 predicted masks Lambda_3^T(e_b (x) e_x/e_z) annihilate every one of the 160 cube sums
+
+--- cube (0,5,10,19,24,29) d=24 R=8
+    Q_5 [mk   ] rank=  0 nullity=128 (predicted nullity 128) -> MATCH
+    Q_6 [mk   ] rank= 48 nullity= 80 (predicted nullity 80) -> MATCH
+    Q_7 [mk   ] rank=128 nullity=  0 (predicted nullity 0) -> MATCH
+    Q_8 [mk   ] rank=128 nullity=  0 (predicted nullity 0) -> MATCH
+    Q_5 [indep] rank=  0 nullity=128 (predicted nullity 128) -> MATCH
+    Q_6 [indep] rank= 48 nullity= 80 (predicted nullity 80) -> MATCH
+    Q_7 [indep] rank=128 nullity=  0 (predicted nullity 0) -> MATCH
+    Q_8 [indep] rank=128 nullity=  0 (predicted nullity 0) -> MATCH
+    -- Part 4 : predicted masks
+       Q_5: 64 of 64 predicted masks Lambda_0^T(e_b (x) e_x/e_z) annihilate every one of the 160 cube sums
+       Q_6: 48 of 64 predicted masks Lambda_1^T(e_b (x) e_x/e_z) annihilate every one of the 160 cube sums
+       Q_7: 0 of 64 predicted masks Lambda_2^T(e_b (x) e_x/e_z) annihilate every one of the 160 cube sums
+       Q_8: 0 of 64 predicted masks Lambda_3^T(e_b (x) e_x/e_z) annihilate every one of the 160 cube sums

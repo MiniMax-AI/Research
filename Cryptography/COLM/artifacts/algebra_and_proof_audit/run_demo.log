@@ -1,0 +1,155 @@
+=== 1. GF(2^128) Splice Index-Set Derivation & Length-Floor Proofs (algebra.py) ===
+GF(2^128) = GF(2)[x]/(x^128+x^7+x^2+x+1)   (COLM v1, PDF p.2, section 1.1)
+  x is primitive: x^(2^128-1) = 1                                        OK
+  x has order exactly 2^128-1 (x^(2^127) != 1)                           OK
+  1/3 = 0xffffffffffffffffffffffffffffff82  (degree 127)
+  3 * (1/3) = 1                                                          OK
+
+[A] the FADE relation -- I0 is the support of f(x), shifted by one
+  sum_{k in {1,2,3,8,129}} x^(k-1) = 0                                   OK
+  equivalently  1 + x + x^2 + x^7 + x^128 = 0, i.e. f(x) = 0             OK
+  shifted by s=1   : sum_{k in [2, 3, 4, 9, 130]} x^(k-1) = 0            OK
+  shifted by s=7   : sum_{k in [8, 9, 10, 15, 136]} x^(k-1) = 0          OK
+  shifted by s=50  : sum_{k in [51, 52, 53, 58, 179]} x^(k-1) = 0        OK
+
+[B] the fade's MINIMUM message length
+    a non-empty I0 with sum x^(k-1) = 0 exists iff {x^0..x^(l-2)} is GF(2)-dependent
+      l = 127 : 126 powers, GF(2)-rank 126  ->  non-empty I0 exists: False
+      l = 128 : 127 powers, GF(2)-rank 127  ->  non-empty I0 exists: False
+      l = 129 : 128 powers, GF(2)-rank 128  ->  non-empty I0 exists: False
+      l = 130 : 129 powers, GF(2)-rank 128  ->  non-empty I0 exists: True
+      l = 131 : 130 powers, GF(2)-rank 128  ->  non-empty I0 exists: True
+  no non-empty I0 for any l <= 129                                       OK
+  a non-empty I0 exists at l = 130                                       OK
+      kernel element derived by Gaussian elimination: x^128 = sum_{e in [0, 1, 2, 7]} x^e
+      => I0 = [1, 2, 3, 8, 129]
+  the DERIVED kernel element is exactly I0 = {1,2,3,8,129}               OK
+
+[C] the TRANSPLANT relation
+    A splice at block i moves the decryption onto query 2's state -- it makes
+    X_mix[i] = X_2[i] and W_mix[i] = W_2[i] -- IF AND ONLY IF W_mix[i-1] = W_2[i-1].
+    State transfer is therefore STICKY ALONG A CONTIGUOUS RUN of spliced blocks
+    and is destroyed by any unspliced block in between.  The transplant needs
+      (i)  a contiguous run {m, m+1, ..., l+1} of spliced blocks reaching the tag, and
+      (ii) W_mix[m-1] = W_2[m-1], i.e. S cap {1..m-1} = supp(x^(m-1)/3)+1, possible
+           only if maxdeg(x^(m-1)/3) <= m-2   -- 'condition (C)'.
+  condition (C) first holds at m = 129                                   OK
+  condition (C) fails for every m <= 128                                 OK
+      x^128/3 has support [0, 2, 3, 4, 5, 6]  =>  prefix [1, 3, 4, 5, 6, 7]
+      at l = m = 129 the run is {129,130} = {l, l+1}, so S = [1, 3, 4, 5, 6, 7, 129, 130]
+  the DERIVED transplant set at l = 129 is exactly {1,3,4,5,6,7,129,130} OK
+  for l > 129 the SAME prefix works and the run is simply {129..l+1}     OK
+  condition (C) fails at m = 128 (deg(x^127/3) = 127 > 126)              OK
+  m <= l forces l >= 129: no transplant exists below that                OK
+
+[D] the COLM_tau obstruction -- why the same two queries do NOT reach COLM_127
+  x^tau/3 in span{1..x^(tau-1)} for NO tau in 1..127 (degree is always 127) OK
+      i.e. the blocking quantity 3^{-1} x^tau always has an x^127 term, so the
+      intermediate tag's state difference can never be cancelled for tau <= 127.
+      The margin is exactly one block: tau* = 128.
+
+ALGEBRA: ALL CHECKS PASS
+
+=== 2. Case A / B / C Algebraic & Exhaustive Subset Verification (derivation.py) ===
+GF(2^128) = GF(2)[x]/(x^128+x^7+x^2+x+1);  x = 2, x+1 = 3
+  3 * 3^-1 == 1                                                    OK
+  3 xor 2 == 1                                                     OK
+  x is primitive: x^(2^128-1) == 1                                 OK
+  Case A: XOR_{i in {1,2,3,8,129}} 2^(i-1) == f(2) == 0            OK
+  Case A: unreduced polynomial equals f(x)                         OK
+  Case B: |S_B| = 123, max(S_B) = 129                              OK
+  Case B: [1 in S] xor 3*XOR_{i>=2} 2^(i-2) == 0                   OK
+  Case B: S_B is the unique solution in basis {2^0..2^127}         OK
+  Case C: (3 xor 2)*u == u, so both conditions force u == 0        OK
+  Case C: exhaustive over all 2^(m+1)-1 subsets at m= 4: no S works OK
+  Case C: exhaustive over all 2^(m+1)-1 subsets at m= 5: no S works OK
+  Case C: exhaustive over all 2^(m+1)-1 subsets at m= 6: no S works OK
+  Case C: exhaustive over all 2^(m+1)-1 subsets at m= 7: no S works OK
+  Case C: exhaustive over all 2^(m+1)-1 subsets at m= 8: no S works OK
+  Case C: exhaustive over all 2^(m+1)-1 subsets at m= 9: no S works OK
+  Case C: exhaustive over all 2^(m+1)-1 subsets at m=10: no S works OK
+  Case C: exhaustive over all 2^(m+1)-1 subsets at m=11: no S works OK
+  Case C: exhaustive over all 2^(m+1)-1 subsets at m=12: no S works OK
+derivation: OK
+
+=== 3. Quantitative Evaluation of Theorem 2 & Lemma 3 (thm2.py) ===
+================================================================================
+Evaluation of the 2024 Journal of Cryptology Proof (Theorem 2, J. Cryptol. 2024)
+and 2016 CAESAR Addendum Proof at q = 2 encryption queries, s = 1 forgery:
+================================================================================
+
+fade       l = 130 blocks   AD = 0 block(s)/query
+  [2024 J. Cryptol. Thm 2] sigma = 789 (a=0, m=390)
+      eps_bad (Lemma 2)   = 2^-105.94,  eps_ratio (Sec 4.4) = 2^-117.37
+      Theorem 2 bound     = 2^-105.94   vs. measured Adv^oAE  = 1.0 (exceeded by 2^105.9)
+  [2016 Addendum Thm 2]    sigma = 390, sigma_auth = 392
+      Theorem 2 bound     = 2^-107.60   vs. measured Adv^auth = 1.0 (exceeded by 2^107.6)
+
+fade       l = 130 blocks   AD = 1 block(s)/query
+  [2024 J. Cryptol. Thm 2] sigma = 792 (a=3, m=390)
+      eps_bad (Lemma 2)   = 2^-105.93,  eps_ratio (Sec 4.4) = 2^-117.37
+      Theorem 2 bound     = 2^-105.93   vs. measured Adv^oAE  = 1.0 (exceeded by 2^105.9)
+  [2016 Addendum Thm 2]    sigma = 393, sigma_auth = 395
+      Theorem 2 bound     = 2^-107.58   vs. measured Adv^auth = 1.0 (exceeded by 2^107.6)
+
+fade       l = 130 blocks   AD = 2 block(s)/query
+  [2024 J. Cryptol. Thm 2] sigma = 795 (a=6, m=390)
+      eps_bad (Lemma 2)   = 2^-105.92,  eps_ratio (Sec 4.4) = 2^-117.36
+      Theorem 2 bound     = 2^-105.92   vs. measured Adv^oAE  = 1.0 (exceeded by 2^105.9)
+  [2016 Addendum Thm 2]    sigma = 396, sigma_auth = 398
+      Theorem 2 bound     = 2^-107.56   vs. measured Adv^auth = 1.0 (exceeded by 2^107.6)
+
+transplant l = 129 blocks   AD = 0 block(s)/query
+  [2024 J. Cryptol. Thm 2] sigma = 783 (a=0, m=387)
+      eps_bad (Lemma 2)   = 2^-105.97,  eps_ratio (Sec 4.4) = 2^-117.38
+      Theorem 2 bound     = 2^-105.97   vs. measured Adv^oAE  = 1.0 (exceeded by 2^106.0)
+  [2016 Addendum Thm 2]    sigma = 387, sigma_auth = 389
+      Theorem 2 bound     = 2^-107.62   vs. measured Adv^auth = 1.0 (exceeded by 2^107.6)
+
+transplant l = 129 blocks   AD = 1 block(s)/query
+  [2024 J. Cryptol. Thm 2] sigma = 786 (a=3, m=387)
+      eps_bad (Lemma 2)   = 2^-105.96,  eps_ratio (Sec 4.4) = 2^-117.38
+      Theorem 2 bound     = 2^-105.95   vs. measured Adv^oAE  = 1.0 (exceeded by 2^106.0)
+  [2016 Addendum Thm 2]    sigma = 390, sigma_auth = 392
+      Theorem 2 bound     = 2^-107.60   vs. measured Adv^auth = 1.0 (exceeded by 2^107.6)
+
+transplant l = 129 blocks   AD = 2 block(s)/query
+  [2024 J. Cryptol. Thm 2] sigma = 789 (a=6, m=387)
+      eps_bad (Lemma 2)   = 2^-105.94,  eps_ratio (Sec 4.4) = 2^-117.37
+      Theorem 2 bound     = 2^-105.94   vs. measured Adv^oAE  = 1.0 (exceeded by 2^105.9)
+  [2016 Addendum Thm 2]    sigma = 393, sigma_auth = 395
+      Theorem 2 bound     = 2^-107.58   vs. measured Adv^auth = 1.0 (exceeded by 2^107.6)
+
+Summary at most favourable parameter choice (fade, l = 130, AD = 2 blocks/query):
+  2024 J. Cryptol. Theorem 2 bound : 2^-105.92  (exceeded by 2^105.92)
+  2016 Addendum Theorem 2 bound    : 2^-107.56  (exceeded by 2^107.56)
+
+================================================================================
+Locating the exact flaws in the 2024 Journal of Cryptology proof (pp. 20-25)
+================================================================================
+  Flaw 1 (Section 4.4, p. 24, BadSamp & eps_ratio):
+    In Section 4.4 (p. 24), for a good transcript where {j : X_i^-[j] is fresh}
+    is non-empty with smallest index j_i < l_i, the proof samples MM_i^-[j_i]
+    randomly and claims that Pr[BadSamp] = Pr[MM_i^-[l_i] not fresh] <= 1/(2^n-2*sigma)
+    'due to the randomness of MM_i^-[j_i]', and then samples CC_i^-[l_i+1] uniformly.
+    In reality, during COLM_0.dec (Fig. 3, lines 6-18), MM_i^-[l_i] = E_K^-1(X_i^-[l_i])
+    is determined solely by C_i^-[l_i] and W_i^-[l_i-1]; it does NOT depend on MM_i^-[j_i]!
+    When D[129] = 0 (Fade), W_i^-[l_i-1] = W_1^+[l_i-1] and C_i^-[l_i] = C_1^+[l_i], so
+    X_i^-[l_i] == X_1^+[l_i], MM_i^-[l_i] == MM_1^+[l_i], and CC_i^-[l_i+1] == CC_1^+[l_i+1]
+    hold deterministically with probability 1 regardless of MM_i^-[j_i].
+
+  Flaw 2 (Lemma 1, p. 20 & Bad Event B6, pp. 22-23):
+    In Transplant (l = 129), every block of C_i^- comes from either Query 1 or Query 2,
+    so no CC_i^-[j] is fresh. Bad Event B6 (p. 23) invokes Lemma 1 (p. 20) to claim that
+    L_X(W[0], Y[1..j+1]) == X'[j+1] forces W[0] == W'[0], overlooking that when two
+    queries share a 129-block plaintext prefix (X_1^+[r] == X_2^+[r]) and j+1 >= 129,
+    the GF(2^128) relation 3 * sum_{r in {1,3,4,5,6,7}} 2^(r-1) = 2^128 mod f(x)
+    transfers W_i^-[128] onto W_2^+[128] even though W_1^+[0] != W_2^+[0]!
+
+  2024 J. Cryptol. sigma = a + 2m + 3(q+s) = 795 at a=6, m=390, q=2, s=1   OK
+  2024 J. Cryptol. Theorem 2 bound at sigma=795 is 2^-105.92               OK
+  2016 Addendum sigma_auth = 398 and Theorem 2 bound is 2^-107.56          OK
+
+ARITHMETIC: ALL CHECKS PASS
+
+RESULT: SUCCESS

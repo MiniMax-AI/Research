@@ -1,0 +1,17 @@
+.DS_Store
+__pycache__/
+*.py[cod]
+*.sage.py
+*.o
+*.so
+*.dylib
+*.dSYM/
+a.out
+artifacts/.work/
+artifacts/kat/hawk_shim
+
+# Fetched on demand via artifacts/fetch_third_party.sh
+artifacts/agps20/
+artifacts/hawk_recover/
+artifacts/kat/hawk_ref/
+artifacts/kat/hawk_shim.c

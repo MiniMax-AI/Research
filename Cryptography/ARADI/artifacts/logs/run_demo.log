@@ -1,0 +1,109 @@
+=== 1. Official NSA Test Vectors, Orthogonal Island Proof & LATINCRYPT 2025 Audit ===
+========================================================================
+  NSA ARADI Structural Algebra, LATINCRYPT 2025 Audit & Mitigation Check
+========================================================================
+
+[1/4] Official NSA Specification & Test Vectors (ePrint 2024/1240)
+[PASS] Official NSA ARADI vectors verified (ePrint 2024/1240):
+  - Fig. 3.4: 17/17 round keys, 16/16 intermediate states, CT = 3f09abf4 00e3bd74 03260def b7c53912
+  - Fig. 4.3: 10/10 Key-A counter blocks (n = 0..9) + decryption round-trip
+  - Fig. 4.4: 10/10 Key-B counter blocks (n = 0..9) + decryption round-trip
+  - Inverse key schedule: verified exact O(1) recovery for even_idx in {0,2,4,6,8,10,12,14}
+
+[2/4] Linear Layer Algebra & Orthogonal Island Collapse Proof
+  - L_0 = (11, 8, 14): involution=True, symmetric=False, orthogonal=False, canceling_masks=0
+  - L_1 = (10, 9, 11): involution=True, symmetric=False, orthogonal=False, canceling_masks=0
+  - L_2 = (9, 4, 14): involution=True, symmetric=False, orthogonal=False, canceling_masks=0
+  - L_3 = (8, 9, 7): involution=True, symmetric=True , orthogonal=True , canceling_masks=255
+  - Verified 8 disjoint 4-column islands of L_3: [0, 8, 23, 31] .. [7, 15, 22, 30]
+  - S-box ANF: pi_w = w ^ wy ^ xy ^ xz ^ wyz; pi_x = x ^ wy; pi_y = y ^ wy ^ wxy ^ wz; pi_z = wy ^ xy ^ z
+  - Super-S-box collapse (row x): pi_x ^ pi_w*pi_y = x ^ wy ^ xy ^ wz ^ wxz ^ xyz (deg = 3)
+  - Super-S-box collapse (row z): pi_z ^ (pi_x^pi_w)*pi_y = wy ^ xy ^ wxy ^ z ^ wz ^ wyz ^ xyz (deg = 3)
+
+[3/4] Audit of Bellini et al. (LATINCRYPT 2025, ePrint 2025/1443 Section 6.2)
+  - 3-round dead columns across 32 single-column diffs: {9: 16, 10: 16}
+  - Covered columns of lambda = Lambda_0(K^(5)) / 32 : {19: 16, 24: 16}
+  - Blind columns of lambda (unconstrained nibbles)  : {8: 16, 13: 16} -> 32 or 52 unconstrained key bits!
+  - [PASS] Confirmed: max coverage is 24/32 columns; 1 single-diff 20-CP batch cannot recover K^(5).
+
+[4/4] 6-Round 48-CP Analytical Certificate, Offset Check & Zero-Cost L_3' Fix
+  - Analytical certificate derived in 4.27 ms (0 key samples): 198 universal equations (99 row x + 99 row z)
+  - Per-island zero-sum dimensions: [16, 12, 10, 12, 18, 0, 16, 15] (sum = 99 per quadratic row)
+  - Empirical verification: 0 violations / 9900 checks (256-bit master keys), 0 violations / 9900 checks (independent 640-bit round keys)
+  - Round-offset sensitivity (per-word [w, x, y, z] annihilators on 48-CP cube): r0=0: [0, 99, 0, 99] (total=198), r0=1: [0, 8, 0, 8] (total=16), r0=2: [0, 0, 0, 0] (total=0), r0=3: [0, 0, 0, 0] (total=0)
+  - Mitigation L_3' = (7, 3, 11): involution=True, XORs/bit=2, canceling_masks=0, 48-CP annihilators=[24, 24, 24, 24] (total=96 < 128 -> attack neutralized)
+  - Mitigation L_3'' = (3, 1, 5): involution=True, XORs/bit=2, canceling_masks=0, 48-CP annihilators=[24, 24, 24, 24] (total=96 < 128 -> attack neutralized)
+
+[PASS] All algebraic theorems, SOTA audit claims, and mitigation checks verified.
+
+=== 2. 5-Round ARADI Ultra-Low-Data Key Recovery (25x 6-CP MITM & 2x 4-CP 256-Bit MK) ===
+========================================================================
+  5-Round ARADI Ultra-Low-Data Single-Key Recovery (6-CP MITM & 4-CP SAT)
+========================================================================
+
+[Part A] Running 25 trials of 5-Round 6-CP 2^12 8-Island MITM + Peel...
+  - Exact K^(5) recovery rate : 25/25 (100.0%)
+  - Strictly 6-CP unique rate : 20/25 (80.0%)
+  - Mean chosen plaintexts    : 6.40 CP
+  - Solve time (ms / trial)   : median=8.9 ms, mean=49.1 ms
+  [PASS] All 5-round 6-CP MITM trials recovered exact 128-bit K^(5).
+
+[Part B] Running 2 trials of 5-Round 4-CP Full 256-Bit Master-Key Recovery
+  - Verified inner subspace dimensions dim V_k = [3, 12, 36, 88], affine key-schedule equations = 256 (setup 19.1 ms)
+  [4-CP Trial 1] CP=4, SAT_models=1, time=15.50s, 256-bit_MK_match=True (c58abebf 6e268570 c662a081 d6505a38 ...)
+  [4-CP Trial 2] CP=4, SAT_models=1, time=12.46s, 256-bit_MK_match=True (9fe432e5 ae783043 0b367b46 6876004e ...)
+  - Full 256-bit master-key recovery : 2/2 (100.0%), mean CP = 4.00
+  - Solve time (s / trial)           : median=13.98 s, mean=13.98 s
+  [PASS] All 5-round 4-CP trials recovered and verified the exact 256-bit master key.
+
+=== 3. 6-Round ARADI 48-CP Full 256-Bit Master-Key Recovery (2 trials) ===
+========================================================================
+  6-Round ARADI 48-CP Full 256-Bit Master-Key Recovery (Zero-Sampling)
+========================================================================
+
+[Setup] Analytical Orthogonal Island Collapse certificate built in 5.37 ms (0 key samples):
+  - Cube directions : [(2, 15), (2, 17), (2, 22), (2, 25), (2, 30), (3, 30)] (48-point prefix, 32x less data than 1,536-CP FHT)
+  - Universal eqs   : 198 (99 row x + 99 row z; island dims [16, 12, 10, 12, 18, 0, 16, 15])
+  - Cascade pairs   : 128 deterministic single-column pairs inside 0..47
+
+  [Trial 1/2] 48 CP | K^(6)=3.78s, K^(5)_MITM=71.70ms, K^(4)_subcube=108.45ms, total=3.97s | 256-bit_MK_match=True (69c5620a d6672226 492fa53e eac2e722 ...)
+  [Trial 2/2] 48 CP | K^(6)=2.70s, K^(5)_MITM=71.30ms, K^(4)_subcube=107.13ms, total=2.89s | 256-bit_MK_match=True (4d57e801 a7e7be79 62d55dad dcb85091 ...)
+
+[Summary] 6-Round ARADI 48-CP Master-Key Recovery:
+  - Exact 256-bit master-key recovery : 2/2 (100.0%)
+  - Data complexity                   : 48 CP (vs 1,536 CP in 2025/1227 -> 32.0x reduction)
+  - K^(6) SAT solve time              : median=3.24 s, mean=3.24 s
+  - K^(5) 8-island MITM cascade       : median=71.50 ms
+  - K^(4) 16-pt subcube + 2r cascade  : median=107.79 ms
+  - End-to-end wall time / trial      : median=3.43 s, mean=3.43 s
+  [PASS] All 6-round 48-CP trials recovered and verified the exact 256-bit master key.
+
+=== 4. 7-Round ARADI 3,072-CP Full 256-Bit Master-Key Recovery (2 trials) ===
+========================================================================
+  7-Round ARADI Practical Full 256-Bit Master-Key Recovery (3,072 CP)
+========================================================================
+
+[Setup] Precomputed 12-bit FHT partial-sum kernel in 370.00 ms
+  - Shifts          : [0, 4, 8, 1, 5, 9] (6 x 512 = 3,072 CP = 2^11.58 CP)
+  - Prior 7R SOTA   : 2^32 pairs (2^33 CP) & 2^70..2^72 ND evals (LATINCRYPT 2025)
+
+  [Trial 1/2] 3,072 CP | K^(7)_cands=1 | time=3.71s | 256-bit_MK_match=True (41dd0cc2 c23775e2 50ae92e0 37549fa7 ...)
+  [Trial 2/2] 3,072 CP | K^(7)_cands=1 | time=3.68s | 256-bit_MK_match=True (d036c76d 5fb51041 0593306a f0a94e7e ...)
+
+[Summary] 7-Round ARADI (3,072 CP) Master-Key Recovery:
+  - Exact 256-bit master-key recovery : 2/2 (100.0%)
+  - Single-core wall time (Python)    : median=3.69 s, mean=3.69 s
+  [PASS] All 7-round ARADI trials recovered and verified the exact 256-bit master key.
+
+
+=== 5. 8-Round ARADI 90,112-CP Full 256-Bit Master-Key Recovery (2 trials, 1-core C) ===
+========================================================================
+  8-Round ARADI Practical Full 256-Bit Master-Key Recovery (90,112 CP)
+========================================================================
+
+  [Trial 1/2] 90,112 CP | Online solve = 3.131 s | K8_ok=1 K7_ok=1 K6_ok=1 | 256-bit_MK_match=TRUE (2720af98 1d3808c7 ...)
+  [Trial 2/2] 90,112 CP | Online solve = 3.215 s | K8_ok=1 K7_ok=1 K6_ok=1 | 256-bit_MK_match=TRUE (1811535f 446c4639 ...)
+
+[SUMMARY] 8-Round ARADI Full 256-Bit Master-Key Recovery: 2/2 (100%), mean online time = 3.173 s (1 core)!
+
+RESULT: PASS

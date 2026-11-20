@@ -1,0 +1,50 @@
+{
+  "sec": 187,
+  "n": 1018,
+  "m": 10,
+  "t": 11,
+  "k": 908,
+  "mt": 110,
+  "bitcomplexity": 187.0021096578455,
+  "route": "Route-B (HOVER p=3, s*=36, kappa=74)",
+  "wall_seconds": 90.104,
+  "peak_rss_mb": 1500.0,
+  "rref_bit_identical": true,
+  "official_checker_output": 1,
+  "g_is_irreducible": true,
+  "witness_file": "witnesses/sk_McEliece_187.txt",
+  "g_coeffs_int": [
+    305,
+    628,
+    65,
+    196,
+    715,
+    231,
+    959,
+    934,
+    527,
+    357,
+    86,
+    1
+  ],
+  "support_first10_int": [
+    636,
+    789,
+    928,
+    270,
+    710,
+    610,
+    934,
+    409,
+    988,
+    44
+  ],
+  "extra": {
+    "sstar": 36,
+    "kappa": 74
+  },
+  "physical_cores": 1,
+  "core_seconds": 90.1,
+  "core_hours": 0.025,
+  "first_blood": true
+}

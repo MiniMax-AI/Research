@@ -1,0 +1,28 @@
+=== 9-Round ARADI Full 256-Bit Master-Key Recovery (Nested Joint-WHT Peel) ===
+  Distinguisher: 6R Q_6 on d=16 colliding-pair cube (0,5,19,24), 16 Z_16 shifts
+  Peel layers  : L_0, L_3, L_2 (52 key bits/branch: 9 kappa + 3 gamma + 1 g)
+  Kappa search : 2^0 / 2^36 per branch | cubes/shift = 5
+  Oracle prefix: top 36 of 36 kappa bits supplied (all 2^16 (gamma,g) + JM WHT + MK inv live)
+  Memory       : cube buffer 1.4 MB, WHT kernel tables 1.1 MB
+  [Trial  1/20] kappa=32/32 gamma=32/32 | K9_ok=1 K8_ok=1 | 256-bit MK_match=True | 1.00s
+  [Trial  2/20] kappa=32/32 gamma=32/32 | K9_ok=1 K8_ok=1 | 256-bit MK_match=True | 0.96s
+  [Trial  3/20] kappa=32/32 gamma=32/32 | K9_ok=1 K8_ok=1 | 256-bit MK_match=True | 0.93s
+  [Trial  4/20] kappa=32/32 gamma=32/32 | K9_ok=1 K8_ok=1 | 256-bit MK_match=True | 0.90s
+  [Trial  5/20] kappa=32/32 gamma=32/32 | K9_ok=1 K8_ok=1 | 256-bit MK_match=True | 0.87s
+  [Trial  6/20] kappa=32/32 gamma=32/32 | K9_ok=1 K8_ok=1 | 256-bit MK_match=True | 0.99s
+  [Trial  7/20] kappa=32/32 gamma=32/32 | K9_ok=1 K8_ok=1 | 256-bit MK_match=True | 0.84s
+  [Trial  8/20] kappa=32/32 gamma=32/32 | K9_ok=1 K8_ok=1 | 256-bit MK_match=True | 0.82s
+  [Trial  9/20] kappa=32/32 gamma=32/32 | K9_ok=1 K8_ok=1 | 256-bit MK_match=True | 0.81s
+  [Trial 10/20] kappa=32/32 gamma=32/32 | K9_ok=1 K8_ok=1 | 256-bit MK_match=True | 0.79s
+  [Trial 11/20] kappa=32/32 gamma=32/32 | K9_ok=1 K8_ok=1 | 256-bit MK_match=True | 0.90s
+  [Trial 12/20] kappa=32/32 gamma=32/32 | K9_ok=1 K8_ok=1 | 256-bit MK_match=True | 0.90s
+  [Trial 13/20] kappa=32/32 gamma=32/32 | K9_ok=1 K8_ok=1 | 256-bit MK_match=True | 0.86s
+  [Trial 14/20] kappa=32/32 gamma=32/32 | K9_ok=1 K8_ok=1 | 256-bit MK_match=True | 0.85s
+  [Trial 15/20] kappa=32/32 gamma=32/32 | K9_ok=1 K8_ok=1 | 256-bit MK_match=True | 0.84s
+  [Trial 16/20] kappa=32/32 gamma=32/32 | K9_ok=1 K8_ok=1 | 256-bit MK_match=True | 0.87s
+  [Trial 17/20] kappa=32/32 gamma=32/32 | K9_ok=1 K8_ok=1 | 256-bit MK_match=True | 0.84s
+  [Trial 18/20] kappa=32/32 gamma=32/32 | K9_ok=1 K8_ok=1 | 256-bit MK_match=True | 0.83s
+  [Trial 19/20] kappa=32/32 gamma=32/32 | K9_ok=1 K8_ok=1 | 256-bit MK_match=True | 0.94s
+  [Trial 20/20] kappa=32/32 gamma=32/32 | K9_ok=1 K8_ok=1 | 256-bit MK_match=True | 0.97s
+  [Summary 9-Round ARADI] Exact 256-bit MK recovery: 20/20 (100%) | mean 0.88s | D = 5242880 CP (2^22.32)
+[PASS] 9-Round ARADI nested-WHT peel verified.

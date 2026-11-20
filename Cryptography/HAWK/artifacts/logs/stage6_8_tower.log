@@ -1,0 +1,7 @@
+is_aside (== I mod 2): True
+V_tau * tau(V_tau) == I : True
+V_tau ACCEPTED as the a-side cocycle
+tower: wall 184.8s cpu 184.4s  B*B==Q: True
+wrote data/recovered_skd.bin
+TOTAL wall 187.5s cpu 187.2s
+RESULT: SUCCESS

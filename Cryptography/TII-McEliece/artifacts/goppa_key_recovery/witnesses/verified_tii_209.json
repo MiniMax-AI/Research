@@ -1,0 +1,50 @@
+{
+  "sec": 209,
+  "n": 495,
+  "m": 9,
+  "t": 9,
+  "k": 414,
+  "mt": 81,
+  "bitcomplexity": 208.9589258067748,
+  "route": "Route-A (n'=269, ISD=35.36s, threads=128)",
+  "wall_seconds": 39.724,
+  "peak_rss_mb": 338.2,
+  "rref_bit_identical": true,
+  "official_checker_output": 1,
+  "g_is_irreducible": true,
+  "witness_file": "witnesses/sk_McEliece_209.txt",
+  "g_coeffs_int": [
+    415,
+    305,
+    186,
+    264,
+    292,
+    292,
+    85,
+    118,
+    476,
+    1
+  ],
+  "support_first10_int": [
+    242,
+    333,
+    391,
+    94,
+    304,
+    121,
+    4,
+    435,
+    143,
+    487
+  ],
+  "extra": {
+    "nprime": 269,
+    "words_sampled": 17849,
+    "isd_seconds": 35.355,
+    "quotient_dim": 10
+  },
+  "physical_cores": 64,
+  "core_seconds": 2542.34,
+  "core_hours": 0.7062,
+  "first_blood": false
+}

@@ -1,0 +1,308 @@
+SBC_VOLE one-signature key recovery -- PoC
+mode=--sweep
+artifact sha256=e275d529c750bad077ca7bbe0ff355e9a183a4038df08d7869ef7ca95d3447a7
+  (expected e275d529c750bad077ca7bbe0ff355e9a183a4038df08d7869ef7ca95d3447a7)
+---------------------------------------------------------------
+[0] COST of the attack at the paper's own (n,k) = (130,257)
+paper's parameters: n = 130, k = 257   claimed security level = lambda = 128 bits
+mean measured rank deficiency d = 0.467 (1200 artifact instances)
+cost model: elementary bit operations; F_{2^k} multiply = k^2, GF(2) elimination = (1/3)*m*c^2
+
+  headline      T = 4(n-2)k^2 + (1/3)k(2(n-2))^2 + 2^d[...]      d=0     =        39695021 = 2^25.24  (margin to 2^128: 102.8 bits)
+                                                                 d=mean  =        39795808 = 2^25.25  (margin to 2^128: 102.8 bits)
+                                                                 d=2     =        40486067 = 2^25.27  (margin to 2^128: 102.7 bits)
+  conservative  T = (8(n-2)+8)k^2 + (1/3)k(2(n-2))^2 + 2^d[...]  d=0     =        74040501 = 2^26.14  (margin to 2^128: 101.9 bits)
+                                                                 d=mean  =        74141288 = 2^26.14  (margin to 2^128: 101.9 bits)
+                                                                 d=2     =        74831547 = 2^26.16  (margin to 2^128: 101.8 bits)
+  karatsuba     T = 4(n-2)k^1.585 + (1/3)k(2(n-2))^2 + 2^d[...]  d=0     =         9258690 = 2^23.14  (margin to 2^128: 104.9 bits)
+                                                                 d=mean  =         9359477 = 2^23.16  (margin to 2^128: 104.8 bits)
+                                                                 d=2     =        10049736 = 2^23.26  (margin to 2^128: 104.7 bits)
+
+  memory  : 257 x 256 GF(2) system = 65792 bits = 2^16.0 bits (8.0 kB)
+  data    : ONE signature = 2^0.0 signatures (B carries k = 257 bits of key-affine information about a 256-bit key)
+
+  worst-case over all three accountings and all three d: 2^26.16  (claimed security 2^128)
+COST_RESULT: SUCCESS
+---------------------------------------------------------------
+[1] STRUCTURAL: is B affine in the key in the PAPER's printed Fig. 5 (p.20)?
+    (deterministic: random.Random(20241001), no entropy drawn)
+paper's own parameters: n = 130, k = 257, field F_{2^257}
+[1] second difference B(z1)+B(z2)+B(z1+z2)+B(0) over 25 random instances of the PRINTED Fig. 5 step 4: 0 non-zero -> B is F_2-affine in (x,y): True
+[2] closed form vs printed Fig. 5 step 4 over 25 instances: 0 mismatches -> closed form correct: True
+[3] key recovery from the PRINTED Fig. 5 step 4, 20 honest keys, n=130 k=257: 20/20 recovered exactly
+    rank histogram of the 257x256 system: {254: 2, 255: 11, 256: 7}
+  PASS  structural F_2-affine check (25 instances)
+---------------------------------------------------------------
+[artifact] SBC_VOLE D=9 (basic), paper's Table 1/Table 3 size = 3458 B
+  unmodified-artifact signature size: 3458 (paper: 3458)
+  SIGN_D=9 SIGN_TAU=15 SIGSIZE=3458
+  SIGN_MSGHASH 1b9f4ede0c84c8c5f81a6a4488aa1f34b6290447074c7cb988d41dbb253318f1
+  SIGN_PK0 b401bf010a9bd02d
+  SIGN_SELFVERIFY: 1
+  attack input: raw binary victim.sig (    3458 B) + victim.pk (   10400 B)
+  (zero-patch unmodified SBCvole.c -- the attack never sees SecX or UVxy)
+  system: 257 GF(2) equations x 256 unknowns ; rank = 256 ; 1 candidate(s)
+  RECOVERED_RANK 256
+  RECOVERED_SECX d161ad2bfd12a286 036cf9a6eda88c79 1df3342c4260f875 1969790687af3da6
+  PASS  recovered key == victim key: yes
+  PASS  recovered key regenerates the victim public key byte-for-byte: yes
+  SIGN_D=9 SIGN_TAU=15 SIGSIZE=3458
+  SIGN_MSGHASH baf84612207eab4c2bac8cf93ffd1d3e1fa019b5fe05056a5925e1cd7d3145e6
+  SIGN_PK0 b401bf010a9bd02d
+  SIGN_SELFVERIFY: 1
+  PASS  >>> FORGERY ACCEPTED BY THE AUTHORS' VERIFIER: 1
+  PASS  negative controls (all must be 0): wrong key=0  wrong message=0  replayed honest signature=0
+---------------------------------------------------------------
+[artifact] SBC_VOLE D=9 (minmax), paper's Table 1/Table 3 size = 2978 B
+  unmodified-artifact signature size: 2978 (paper: 2978)
+  SIGN_D=9 SIGN_TAU=15 SIGSIZE=2978
+  SIGN_MSGHASH 1b9f4ede0c84c8c5f81a6a4488aa1f34b6290447074c7cb988d41dbb253318f1
+  SIGN_PK0 853faf05dfb100eb
+  SIGN_SELFVERIFY: 1
+  attack input: raw binary victim.sig (    2978 B) + victim.pk (   10400 B)
+  (zero-patch unmodified SBCvole.c -- the attack never sees SecX or UVxy)
+  system: 257 GF(2) equations x 256 unknowns ; rank = 255 ; 2 candidate(s)
+  RECOVERED_RANK 255
+  RECOVERED_SECX a8149950775cbd05 6127eea1158d051f 335be642de87a892 3cbed749420ae6c9
+  PASS  recovered key == victim key: yes
+  PASS  recovered key regenerates the victim public key byte-for-byte: yes
+  SIGN_D=9 SIGN_TAU=15 SIGSIZE=2978
+  SIGN_MSGHASH baf84612207eab4c2bac8cf93ffd1d3e1fa019b5fe05056a5925e1cd7d3145e6
+  SIGN_PK0 853faf05dfb100eb
+  SIGN_SELFVERIFY: 1
+  PASS  >>> FORGERY ACCEPTED BY THE AUTHORS' VERIFIER: 1
+  PASS  negative controls (all must be 0): wrong key=0  wrong message=0  replayed honest signature=0
+---------------------------------------------------------------
+[artifact] SBC_VOLE D=10 (basic), paper's Table 1/Table 3 size = 3218 B
+  unmodified-artifact signature size: 3218 (paper: 3218)
+  SIGN_D=10 SIGN_TAU=13 SIGSIZE=3218
+  SIGN_MSGHASH 1b9f4ede0c84c8c5f81a6a4488aa1f34b6290447074c7cb988d41dbb253318f1
+  SIGN_PK0 15957540b3ce2d7a
+  SIGN_SELFVERIFY: 1
+  attack input: raw binary victim.sig (    3218 B) + victim.pk (   10400 B)
+  (zero-patch unmodified SBCvole.c -- the attack never sees SecX or UVxy)
+  system: 257 GF(2) equations x 256 unknowns ; rank = 254 ; 4 candidate(s)
+  RECOVERED_RANK 254
+  RECOVERED_SECX 549c7eaf0273d400 dc92feea31ca7b6d 66059749be187f88 f69e423bca515018
+  PASS  recovered key == victim key: yes
+  PASS  recovered key regenerates the victim public key byte-for-byte: yes
+  SIGN_D=10 SIGN_TAU=13 SIGSIZE=3218
+  SIGN_MSGHASH baf84612207eab4c2bac8cf93ffd1d3e1fa019b5fe05056a5925e1cd7d3145e6
+  SIGN_PK0 15957540b3ce2d7a
+  SIGN_SELFVERIFY: 1
+  PASS  >>> FORGERY ACCEPTED BY THE AUTHORS' VERIFIER: 1
+  PASS  negative controls (all must be 0): wrong key=0  wrong message=0  replayed honest signature=0
+---------------------------------------------------------------
+[artifact] SBC_VOLE D=10 (minmax), paper's Table 1/Table 3 size = 2802 B
+  unmodified-artifact signature size: 2802 (paper: 2802)
+  SIGN_D=10 SIGN_TAU=13 SIGSIZE=2802
+  SIGN_MSGHASH 1b9f4ede0c84c8c5f81a6a4488aa1f34b6290447074c7cb988d41dbb253318f1
+  SIGN_PK0 264baa4ab7b984b2
+  SIGN_SELFVERIFY: 1
+  attack input: raw binary victim.sig (    2802 B) + victim.pk (   10400 B)
+  (zero-patch unmodified SBCvole.c -- the attack never sees SecX or UVxy)
+  system: 257 GF(2) equations x 256 unknowns ; rank = 256 ; 1 candidate(s)
+  RECOVERED_RANK 256
+  RECOVERED_SECX c3ab6f5587e44a25 8e6bfe1ebb1f7f85 3d8a610d58b72276 c174508510569e23
+  PASS  recovered key == victim key: yes
+  PASS  recovered key regenerates the victim public key byte-for-byte: yes
+  SIGN_D=10 SIGN_TAU=13 SIGSIZE=2802
+  SIGN_MSGHASH baf84612207eab4c2bac8cf93ffd1d3e1fa019b5fe05056a5925e1cd7d3145e6
+  SIGN_PK0 264baa4ab7b984b2
+  SIGN_SELFVERIFY: 1
+  PASS  >>> FORGERY ACCEPTED BY THE AUTHORS' VERIFIER: 1
+  PASS  negative controls (all must be 0): wrong key=0  wrong message=0  replayed honest signature=0
+---------------------------------------------------------------
+[artifact] SBC_VOLE D=11 (basic), paper's Table 1/Table 3 size = 3170 B
+  unmodified-artifact signature size: 3170 (paper: 3170)
+  SIGN_D=11 SIGN_TAU=12 SIGSIZE=3170
+  SIGN_MSGHASH 1b9f4ede0c84c8c5f81a6a4488aa1f34b6290447074c7cb988d41dbb253318f1
+  SIGN_PK0 f806baeea1af4359
+  SIGN_SELFVERIFY: 1
+  attack input: raw binary victim.sig (    3170 B) + victim.pk (   10400 B)
+  (zero-patch unmodified SBCvole.c -- the attack never sees SecX or UVxy)
+  system: 257 GF(2) equations x 256 unknowns ; rank = 256 ; 1 candidate(s)
+  RECOVERED_RANK 256
+  RECOVERED_SECX 9295095c2a7f40b4 f4eea3a20f5b18da 820d1eb7310aa800 efa54f601d4bf38f
+  PASS  recovered key == victim key: yes
+  PASS  recovered key regenerates the victim public key byte-for-byte: yes
+  SIGN_D=11 SIGN_TAU=12 SIGSIZE=3170
+  SIGN_MSGHASH baf84612207eab4c2bac8cf93ffd1d3e1fa019b5fe05056a5925e1cd7d3145e6
+  SIGN_PK0 f806baeea1af4359
+  SIGN_SELFVERIFY: 1
+  PASS  >>> FORGERY ACCEPTED BY THE AUTHORS' VERIFIER: 1
+  PASS  negative controls (all must be 0): wrong key=0  wrong message=0  replayed honest signature=0
+---------------------------------------------------------------
+[artifact] SBC_VOLE D=11 (minmax), paper's Table 1/Table 3 size = 2786 B
+  unmodified-artifact signature size: 2786 (paper: 2786)
+  SIGN_D=11 SIGN_TAU=12 SIGSIZE=2786
+  SIGN_MSGHASH 1b9f4ede0c84c8c5f81a6a4488aa1f34b6290447074c7cb988d41dbb253318f1
+  SIGN_PK0 d1b34df770cbae5f
+  SIGN_SELFVERIFY: 1
+  attack input: raw binary victim.sig (    2786 B) + victim.pk (   10400 B)
+  (zero-patch unmodified SBCvole.c -- the attack never sees SecX or UVxy)
+  system: 257 GF(2) equations x 256 unknowns ; rank = 255 ; 2 candidate(s)
+  RECOVERED_RANK 255
+  RECOVERED_SECX c8109a9dd0a017f8 187c84e4406db64c ac0ed8666e645e48 6dfd596f31944582
+  PASS  recovered key == victim key: yes
+  PASS  recovered key regenerates the victim public key byte-for-byte: yes
+  SIGN_D=11 SIGN_TAU=12 SIGSIZE=2786
+  SIGN_MSGHASH baf84612207eab4c2bac8cf93ffd1d3e1fa019b5fe05056a5925e1cd7d3145e6
+  SIGN_PK0 d1b34df770cbae5f
+  SIGN_SELFVERIFY: 1
+  PASS  >>> FORGERY ACCEPTED BY THE AUTHORS' VERIFIER: 1
+  PASS  negative controls (all must be 0): wrong key=0  wrong message=0  replayed honest signature=0
+---------------------------------------------------------------
+[artifact] SBC_VOLE D=12 (basic), paper's Table 1/Table 3 size = 3090 B
+  unmodified-artifact signature size: 3090 (paper: 3090)
+  SIGN_D=12 SIGN_TAU=11 SIGSIZE=3090
+  SIGN_MSGHASH 1b9f4ede0c84c8c5f81a6a4488aa1f34b6290447074c7cb988d41dbb253318f1
+  SIGN_PK0 d75f97733fedb83d
+  SIGN_SELFVERIFY: 1
+  attack input: raw binary victim.sig (    3090 B) + victim.pk (   10400 B)
+  (zero-patch unmodified SBCvole.c -- the attack never sees SecX or UVxy)
+  system: 257 GF(2) equations x 256 unknowns ; rank = 254 ; 4 candidate(s)
+  RECOVERED_RANK 254
+  RECOVERED_SECX 81db73dfbc5d3114 2287a7fc001813e2 263e61c8456afabd 2d4ff59b7e0eac5f
+  PASS  recovered key == victim key: yes
+  PASS  recovered key regenerates the victim public key byte-for-byte: yes
+  SIGN_D=12 SIGN_TAU=11 SIGSIZE=3090
+  SIGN_MSGHASH baf84612207eab4c2bac8cf93ffd1d3e1fa019b5fe05056a5925e1cd7d3145e6
+  SIGN_PK0 d75f97733fedb83d
+  SIGN_SELFVERIFY: 1
+  PASS  >>> FORGERY ACCEPTED BY THE AUTHORS' VERIFIER: 1
+  PASS  negative controls (all must be 0): wrong key=0  wrong message=0  replayed honest signature=0
+---------------------------------------------------------------
+[artifact] SBC_VOLE D=12 (minmax), paper's Table 1/Table 3 size = 2738 B
+  unmodified-artifact signature size: 2738 (paper: 2738)
+  SIGN_D=12 SIGN_TAU=11 SIGSIZE=2738
+  SIGN_MSGHASH 1b9f4ede0c84c8c5f81a6a4488aa1f34b6290447074c7cb988d41dbb253318f1
+  SIGN_PK0 124be9c87daff08e
+  SIGN_SELFVERIFY: 1
+  attack input: raw binary victim.sig (    2738 B) + victim.pk (   10400 B)
+  (zero-patch unmodified SBCvole.c -- the attack never sees SecX or UVxy)
+  system: 257 GF(2) equations x 256 unknowns ; rank = 255 ; 2 candidate(s)
+  RECOVERED_RANK 255
+  RECOVERED_SECX 2e11d9b71d514242 1c9a2414b6b318b3 9e085d38f3eba431 1b0f70f0a255d6c5
+  PASS  recovered key == victim key: yes
+  PASS  recovered key regenerates the victim public key byte-for-byte: yes
+  SIGN_D=12 SIGN_TAU=11 SIGSIZE=2738
+  SIGN_MSGHASH baf84612207eab4c2bac8cf93ffd1d3e1fa019b5fe05056a5925e1cd7d3145e6
+  SIGN_PK0 124be9c87daff08e
+  SIGN_SELFVERIFY: 1
+  PASS  >>> FORGERY ACCEPTED BY THE AUTHORS' VERIFIER: 1
+  PASS  negative controls (all must be 0): wrong key=0  wrong message=0  replayed honest signature=0
+---------------------------------------------------------------
+[artifact] SBC_VOLE D=13 (basic), paper's Table 1/Table 3 size = 2978 B
+  unmodified-artifact signature size: 2978 (paper: 2978)
+  SIGN_D=13 SIGN_TAU=10 SIGSIZE=2978
+  SIGN_MSGHASH 1b9f4ede0c84c8c5f81a6a4488aa1f34b6290447074c7cb988d41dbb253318f1
+  SIGN_PK0 a2d473d64fee95d1
+  SIGN_SELFVERIFY: 1
+  attack input: raw binary victim.sig (    2978 B) + victim.pk (   10400 B)
+  (zero-patch unmodified SBCvole.c -- the attack never sees SecX or UVxy)
+  system: 257 GF(2) equations x 256 unknowns ; rank = 255 ; 2 candidate(s)
+  RECOVERED_RANK 255
+  RECOVERED_SECX f409e4dd4b981a64 2757a8b3cdbab5c2 09bf6ce6c490519e 32b308174be0be35
+  PASS  recovered key == victim key: yes
+  PASS  recovered key regenerates the victim public key byte-for-byte: yes
+  SIGN_D=13 SIGN_TAU=10 SIGSIZE=2978
+  SIGN_MSGHASH baf84612207eab4c2bac8cf93ffd1d3e1fa019b5fe05056a5925e1cd7d3145e6
+  SIGN_PK0 a2d473d64fee95d1
+  SIGN_SELFVERIFY: 1
+  PASS  >>> FORGERY ACCEPTED BY THE AUTHORS' VERIFIER: 1
+  PASS  negative controls (all must be 0): wrong key=0  wrong message=0  replayed honest signature=0
+---------------------------------------------------------------
+[artifact] SBC_VOLE D=13 (minmax), paper's Table 1/Table 3 size = 2658 B
+  unmodified-artifact signature size: 2658 (paper: 2658)
+  SIGN_D=13 SIGN_TAU=10 SIGSIZE=2658
+  SIGN_MSGHASH 1b9f4ede0c84c8c5f81a6a4488aa1f34b6290447074c7cb988d41dbb253318f1
+  SIGN_PK0 ec0c17e73c85b62d
+  SIGN_SELFVERIFY: 1
+  attack input: raw binary victim.sig (    2658 B) + victim.pk (   10400 B)
+  (zero-patch unmodified SBCvole.c -- the attack never sees SecX or UVxy)
+  system: 257 GF(2) equations x 256 unknowns ; rank = 255 ; 2 candidate(s)
+  RECOVERED_RANK 255
+  RECOVERED_SECX 50279a9b13e9de2d 83118a3601314a29 63fe72236920c388 7b24e76f4c232676
+  PASS  recovered key == victim key: yes
+  PASS  recovered key regenerates the victim public key byte-for-byte: yes
+  SIGN_D=13 SIGN_TAU=10 SIGSIZE=2658
+  SIGN_MSGHASH baf84612207eab4c2bac8cf93ffd1d3e1fa019b5fe05056a5925e1cd7d3145e6
+  SIGN_PK0 ec0c17e73c85b62d
+  SIGN_SELFVERIFY: 1
+  PASS  >>> FORGERY ACCEPTED BY THE AUTHORS' VERIFIER: 1
+  PASS  negative controls (all must be 0): wrong key=0  wrong message=0  replayed honest signature=0
+---------------------------------------------------------------
+[artifact] SBC_VOLE D=15 (basic), paper's Table 1/Table 3 size = 2978 B
+  unmodified-artifact signature size: 2978 (paper: 2978)
+  SIGN_D=15 SIGN_TAU=9 SIGSIZE=2978
+  SIGN_MSGHASH 1b9f4ede0c84c8c5f81a6a4488aa1f34b6290447074c7cb988d41dbb253318f1
+  SIGN_PK0 5fc23d78a6ee1a63
+  SIGN_SELFVERIFY: 1
+  attack input: raw binary victim.sig (    2978 B) + victim.pk (   10400 B)
+  (zero-patch unmodified SBCvole.c -- the attack never sees SecX or UVxy)
+  system: 257 GF(2) equations x 256 unknowns ; rank = 256 ; 1 candidate(s)
+  RECOVERED_RANK 256
+  RECOVERED_SECX f3a5d3dfbdc18486 040de3cee9c155d8 58168d9bfe79cf3b 202ec81ea97fe713
+  PASS  recovered key == victim key: yes
+  PASS  recovered key regenerates the victim public key byte-for-byte: yes
+  SIGN_D=15 SIGN_TAU=9 SIGSIZE=2978
+  SIGN_MSGHASH baf84612207eab4c2bac8cf93ffd1d3e1fa019b5fe05056a5925e1cd7d3145e6
+  SIGN_PK0 5fc23d78a6ee1a63
+  SIGN_SELFVERIFY: 1
+  PASS  >>> FORGERY ACCEPTED BY THE AUTHORS' VERIFIER: 1
+  PASS  negative controls (all must be 0): wrong key=0  wrong message=0  replayed honest signature=0
+---------------------------------------------------------------
+[artifact] SBC_VOLE D=15 (minmax), paper's Table 1/Table 3 size = 2690 B
+  unmodified-artifact signature size: 2690 (paper: 2690)
+  SIGN_D=15 SIGN_TAU=9 SIGSIZE=2690
+  SIGN_MSGHASH 1b9f4ede0c84c8c5f81a6a4488aa1f34b6290447074c7cb988d41dbb253318f1
+  SIGN_PK0 ef4f65608fd54b69
+  SIGN_SELFVERIFY: 1
+  attack input: raw binary victim.sig (    2690 B) + victim.pk (   10400 B)
+  (zero-patch unmodified SBCvole.c -- the attack never sees SecX or UVxy)
+  system: 257 GF(2) equations x 256 unknowns ; rank = 255 ; 2 candidate(s)
+  RECOVERED_RANK 255
+  RECOVERED_SECX 3bf619728544d13c 0950ab37b960bd6d 9f4eebe80c7f195b 486f45144dfe66b8
+  PASS  recovered key == victim key: yes
+  PASS  recovered key regenerates the victim public key byte-for-byte: yes
+  SIGN_D=15 SIGN_TAU=9 SIGSIZE=2690
+  SIGN_MSGHASH baf84612207eab4c2bac8cf93ffd1d3e1fa019b5fe05056a5925e1cd7d3145e6
+  SIGN_PK0 ef4f65608fd54b69
+  SIGN_SELFVERIFY: 1
+  PASS  >>> FORGERY ACCEPTED BY THE AUTHORS' VERIFIER: 1
+  PASS  negative controls (all must be 0): wrong key=0  wrong message=0  replayed honest signature=0
+---------------------------------------------------------------
+[5] how many key candidates does ONE signature leave?  (rank deficiency)
+D9_basic           keys=100  recovered=100/100  deficiency histogram {0: 56, 1: 41, 2: 3}  mean=0.470
+                   Poisson(1/2) prediction {0: 60.65, 1: 30.33, 2: 7.58, 3: 1.26, 4: 0.16}
+D9_minmax          keys=100  recovered=100/100  deficiency histogram {0: 51, 1: 46, 2: 3}  mean=0.520
+                   Poisson(1/2) prediction {0: 60.65, 1: 30.33, 2: 7.58, 3: 1.26, 4: 0.16}
+D10_basic          keys=100  recovered=100/100  deficiency histogram {0: 63, 1: 33, 2: 4}  mean=0.410
+                   Poisson(1/2) prediction {0: 60.65, 1: 30.33, 2: 7.58, 3: 1.26, 4: 0.16}
+D10_minmax         keys=100  recovered=100/100  deficiency histogram {0: 59, 1: 37, 2: 4}  mean=0.450
+                   Poisson(1/2) prediction {0: 60.65, 1: 30.33, 2: 7.58, 3: 1.26, 4: 0.16}
+D11_basic          keys=100  recovered=100/100  deficiency histogram {0: 58, 1: 36, 2: 6}  mean=0.480
+                   Poisson(1/2) prediction {0: 60.65, 1: 30.33, 2: 7.58, 3: 1.26, 4: 0.16}
+D11_minmax         keys=100  recovered=100/100  deficiency histogram {0: 62, 1: 35, 2: 3}  mean=0.410
+                   Poisson(1/2) prediction {0: 60.65, 1: 30.33, 2: 7.58, 3: 1.26, 4: 0.16}
+D12_basic          keys=100  recovered=100/100  deficiency histogram {0: 56, 1: 41, 2: 3}  mean=0.470
+                   Poisson(1/2) prediction {0: 60.65, 1: 30.33, 2: 7.58, 3: 1.26, 4: 0.16}
+D12_minmax         keys=100  recovered=100/100  deficiency histogram {0: 57, 1: 40, 2: 3}  mean=0.460
+                   Poisson(1/2) prediction {0: 60.65, 1: 30.33, 2: 7.58, 3: 1.26, 4: 0.16}
+D13_basic          keys=100  recovered=100/100  deficiency histogram {0: 54, 1: 39, 2: 7}  mean=0.530
+                   Poisson(1/2) prediction {0: 60.65, 1: 30.33, 2: 7.58, 3: 1.26, 4: 0.16}
+D13_minmax         keys=100  recovered=100/100  deficiency histogram {0: 59, 1: 41}  mean=0.410
+                   Poisson(1/2) prediction {0: 60.65, 1: 30.33, 2: 7.58, 3: 1.26, 4: 0.16}
+D15_basic          keys=100  recovered=100/100  deficiency histogram {0: 60, 1: 38, 2: 2}  mean=0.420
+                   Poisson(1/2) prediction {0: 60.65, 1: 30.33, 2: 7.58, 3: 1.26, 4: 0.16}
+D15_minmax         keys=100  recovered=100/100  deficiency histogram {0: 48, 1: 47, 2: 5}  mean=0.570
+                   Poisson(1/2) prediction {0: 60.65, 1: 30.33, 2: 7.58, 3: 1.26, 4: 0.16}
+  PASS  rank deficiency sweep (100 instances)
+---------------------------------------------------------------
+done
+SUMMARY: SBC_VOLE secret key recovered from ONE signature at the paper's own
+         parameters (q=2, k=257, n=130); cost 2^26.1 bit operations (conservative
+         accounting) / 2^25.2 (headline), against a claimed lambda = 128 bits;
+         forgery on an attacker-chosen message ACCEPTED by the authors' own verifier.
+RESULT: SUCCESS

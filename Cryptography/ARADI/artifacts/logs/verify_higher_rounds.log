@@ -1,0 +1,17 @@
+=== Higher-Round ARADI Algebraic & Complexity Audit (Single-Core) ===
+[1/5] 16-bit L_3-island Super-S-Box Psi_G exact ANF spectrum:
+      hist = {0: 1, 3: 3, 5: 28, 6: 224, 8: 65280} (min deg = 3, key-independent) [PASS]
+[2/5] Composite linear-layer canceling-mask census (1364 products, k=1..5):
+      98 products with dim C(M) > 0, ALL reducing to I (dim 32) or L_3 (dim 8) [PASS]
+[3/5] Z_16 shift symmetry, 1-Round Lift identity & live 6R d=16 cube (0,5,19,24):
+      Q_5 128/128 balanced; Q_6 full col 25 + 24 lift masks on [2, 5, 10, 13, 14, 18, 20, 21, 23, 25, 29, 31] verified (16 keys) [PASS]
+[4/5] 9-Round nested-WHT peel rank check: 16 shifted d=16 cubes -> exact GF(2) rho = 256 (residual 2^0) [PASS]
+[5/5] Progressive list-join & packed-arithmetic complexity audit (r0 = 0, vs. ePrint 2025/1227):
+      10R (7R Struct d=113, m=16): D=2^117.00, T=2^117.00, M=2^46.17b  (beats 2^118, 2^118, 2^48b in all 3!)
+      10R (7R Struct d=113, m=8 ): D=2^116.00, T=2^116.00, M=2^109.89b  (rho=256, 4x lower D & T)
+      11R (8R ZeroSum d=124, m=3): D=2^125.58, T=2^125.58, M=2^99.58b  (beats Sec 3.3 2^126, 2^126)
+      11R (7R ZeroSum d=116, m=7): D=2^118.81, T=2^147.17, M=2^119.46b  (beats Sec 3.4 2^119, 2^147.76)
+      12R (8R ZeroSum d=124, m=7): D=2^126.81, T=2^149.88, M=2^123.49b  (rho=256, beats Sec 3.5 T=2^151.8, M=2^123.5b)
+      12R (8R ZeroSum d=124, m=6): D=2^126.58, T=2^148.62, M=2^153.81b  (beats Sec 3.5 in both D & T!)
+      13R depth-5 barrier        : min K = 66 => single run >= 2^264 > 2^255 (2025/1552) [PASS]
+[PASS] All higher-round algebraic theorems and 9R-12R complexity bounds verified in 2.88s (1 core).

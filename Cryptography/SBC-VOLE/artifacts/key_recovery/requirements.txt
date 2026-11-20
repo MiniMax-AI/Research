@@ -1,0 +1,11 @@
+# The verification suite uses only the Python 3 standard library (Python 3.8+)
+# -- zero third-party packages are required.
+#
+# System utilities required (standard on 64-bit Linux and macOS x86_64/arm64):
+#   gcc or clang   (standard C compiler; override via CC=...)
+#   bash, cmp, sed, grep, wc, cut, awk
+#   sha256sum or shasum
+#
+# On first run, ../fetch_third_party.sh downloads and SHA-256-verifies the
+# upstream ASIACRYPT 2025 reference archive and public-domain AES/SHA-256
+# routines into vendor/; all subsequent runs execute completely offline.

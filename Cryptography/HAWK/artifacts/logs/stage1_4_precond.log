@@ -1,0 +1,17 @@
+[     0.0s wall,      0.0s cpu] decoded HAWK-256 public key (450 bytes), n = 256
+[     0.3s wall,      0.3s cpu] cBr (1024, 512), max|cBr| = 24050; MZ 256x512
+[    17.5s wall,     17.4s cpu] HNF kernel: 256 rows, height 5483 bits
+[   143.9s wall,    143.3s cpu] flatter-reduced kernel: height 12 bits
+[   145.0s wall,    144.3s cpu] log2 det(Gram_tau) = 2431.00   (HawkParams.logdet_gram_tau = 2431.00)
+[   145.1s wall,    144.5s cpu] Lambda' = 2*Lambda_tau + Z*w0 built; index = 2^255 (asserted)
+[   145.8s wall,    145.2s cpu] Gram(Lambda'): 256x256, height 40 bits, log2 det = 2941.00
+[   149.5s wall,    148.9s cpu] Cholesky embedding: s = 61, entries 81 bits
+[   205.4s wall,    204.5s cpu] flatter-reduced Gram: height 27 bits, diagonal 39297024 .. 116992512
+[   205.4s wall,    204.5s cpu] lambda_1^2 target = 2n = 512; best row after LLL is 39297024 = 76752x the target
+
+CERTIFICATES
+  log2 det(Gram_tau)          = 2431.00  (expected 2431.00)
+  index(Lambda' in Lambda_tau)= 2^255
+  Gram(Lambda') log2 det      = 2941.00  (= 2431 + 2*255)
+  total CPU-core-seconds      = 204.5
+RESULT: SUCCESS

@@ -1,0 +1,47 @@
+==============================================================================
+TII McEliece (Binary Goppa Code) Key-Recovery Artifact Suite (--demo)
+==============================================================================
+[1/2] Running live Route A key recovery & official Track-2 verification...
+[Route A] Starting TII-133 (n=112, m=7, t=7, k=63, mt=49) | sizes=[112] | threads=64
+  [n'=112] sampled 1962/1962 weight-15 words in 0.02s
+  [n'=112] relation quotient dim = 8 (expected 8)
+  [n'=112] quotient mod T_pub has exact dim 7 -> direct lift!
+    common rowspace 7 kernel (55, 62)
+[SUCCESS] TII-133 (112,7,7) SOLVED & VERIFIED in 0.45s (0.0081 core-h on 64c) | RSS=228.3 MB | RREF_EQ=True | TII_CHECK=1
+[Route A] Starting TII-83 (n=253, m=8, t=5, k=213, mt=40) | sizes=[143, 145, 148, 153, 253] | threads=64
+  [n'=143] sampled 5517/5517 weight-11 words in 0.04s
+  [n'=143] relation quotient dim = 17 (expected 17)
+    low-rank census: 255 vectors at rank <= 90, span 8, 0 exceptional
+    common rowspace 8 kernel (94, 102)
+[SUCCESS] TII-83 (253,8,5) SOLVED & VERIFIED in 3.84s (0.0683 core-h on 64c) | RSS=240.4 MB | RREF_EQ=True | TII_CHECK=1
+[Route A] Starting TII-91 (n=253, m=8, t=6, k=205, mt=48) | sizes=[152, 154, 157, 161, 253] | threads=64
+  [n'=152] sampled 5628/5628 weight-13 words in 0.05s
+  [n'=152] relation quotient dim = 9 (expected 9)
+  [n'=152] quotient mod T_pub has exact dim 8 -> direct lift!
+    common rowspace 8 kernel (95, 103)
+[SUCCESS] TII-91 (253,8,6) SOLVED & VERIFIED in 1.06s (0.0188 core-h on 64c) | RSS=242.9 MB | RREF_EQ=True | TII_CHECK=1
+[Route A] Starting TII-253 (n=214, m=8, t=9, k=142, mt=72) | sizes=[187, 189, 191, 194, 214] | threads=64
+  [n'=187] sampled 6827/6827 weight-19 words in 0.56s
+  [n'=187] relation quotient dim = 9 (expected 9)
+  [n'=187] quotient mod T_pub has exact dim 8 -> direct lift!
+    common rowspace 8 kernel (106, 114)
+[SUCCESS] TII-253 (214,8,9) SOLVED & VERIFIED in 2.07s (0.0367 core-h on 64c) | RSS=252.0 MB | RREF_EQ=True | TII_CHECK=1
+
+[2/2] Running official TII check_solution_track2.sage on representative witnesses (Route A & Route B)...
+Summary manifest: total_solved=94, first_bloods=55, route_a=89, route_b=5, local_92_core_h=177.82, total_94_core_h=69363.26
+  [PASS] TII-83  | check_solution_track2.sage:check_key == 1
+  [PASS] TII-133 | check_solution_track2.sage:check_key == 1
+  [PASS] TII-91  | check_solution_track2.sage:check_key == 1
+  [PASS] TII-125 | check_solution_track2.sage:check_key == 1
+  [PASS] TII-253 | check_solution_track2.sage:check_key == 1
+  [PASS] TII-254 | check_solution_track2.sage:check_key == 1
+  [PASS] TII-228 | check_solution_track2.sage:check_key == 1
+  [PASS] TII-250 | check_solution_track2.sage:check_key == 1
+  [PASS] TII-172 | check_solution_track2.sage:check_key == 1
+  [PASS] TII-187 | check_solution_track2.sage:check_key == 1
+  [PASS] TII-240 | check_solution_track2.sage:check_key == 1
+  [PASS] TII-246 | check_solution_track2.sage:check_key == 1
+  [PASS] TII-252 | check_solution_track2.sage:check_key == 1
+==============================================================================
+RESULT: SUCCESS
+==============================================================================

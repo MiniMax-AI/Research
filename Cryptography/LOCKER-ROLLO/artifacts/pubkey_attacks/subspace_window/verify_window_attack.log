@@ -1,0 +1,180 @@
+==============================================================================
+PART 1.  T7 -- No Frobenius-stable / multiplicatively-invariant weak keys
+         (exhaustive verification for the small primes, proof for all m prime)
+==============================================================================
+  Frobenius-map self-test (v -> v^2 == GF2k.mul(v,v)) for m=5,7,11 : PASS
+  m=5 (prime): enumerated 372 subspaces of dim 1..4 ; Frobenius-stable ones: 2 [1, 4]
+  m=7 (prime): enumerated 29210 subspaces of dim 1..6 ; Frobenius-stable ones: 6 [1, 3, 3, 4, 4, 6]
+  Exact structure (normal basis theorem): GF(2^m) is a CYCLIC F2[t]-module
+  under t = Frobenius, isomorphic to F2[t]/(t^m-1).  Hence the Frobenius-stable
+  F2-subspaces are exactly the ideals, i.e. the divisors of t^m-1 over GF(2),
+  and the possible dimensions are the DEGREES of those divisors:
+      { deg(g) : g | t^m-1 } = { sum over e|m of k_e * ord_e(2) }.
+  (m=5 above: ord_5(2)=4, divisors of t^5-1=(t-1)*Phi_5 have degrees {0,1,5}
+   -- but dim 1 is <spanned by 1> and dim 4 is the TRACE-ZERO hyperplane; both
+   are Frobenius stable, so the naive 'no stable subspace' claim is FALSE.)
+
+  VERIFICATION of the divisor characterisation at small m (exhaustive):
+     m= 5 : observed stable dims [1, 4]   predicted [1, 4]   MATCH=True
+     m= 7 : observed stable dims [1, 3, 4, 6]   predicted [1, 3, 4, 6]   MATCH=True
+
+  THE REAL PARAMETERS (all m prime):
+  instance         m   d ord_m(2)     Frobenius-stable dims        d-dim stable F exists?
+  ROLLO-I-128     67   8 66           [0, 1, 66, 67]               False
+  ROLLO-I-192     79   8 39           [0, 1, 39, 40, 78, 79]       False
+  ROLLO-I-256     97   9 48           [0, 1, 48, 49, 96, 97]       False
+
+  T7 (multiplicative invariance -- the version that IS true):
+  Stab_{K*}(F) = {c in K* : cF subseteq F}.  If c in Stab and c not in F2 then
+  F is closed under F2[c] = K (m prime), so F in {0,K}.  Hence for every F with
+  1 <= dim F < m :  Stab_{K*}(F) = {1}.
+     m=5 : over ALL 372 subspaces F (1<=dim<m), #F with Stab_{K*}(F) != {1} : 0
+     m=7 : over ALL 29210 subspaces F (1<=dim<m), #F with Stab_{K*}(F) != {1} : 0
+
+==============================================================================
+PART 2.  T2/T3 -- Window Lemma + scale invariance, at REAL ROLLO-I params
+==============================================================================
+
+--- ROLLO-I-128 : (m,n,r,d) = (67,83,7,8) ---
+  (a) F = <1,T,...,T^7>  (dim d=8) :  M_W is 59x8 over GF(2^83)
+      rank(M_W) = 7  (< d=8  =>  nontrivial kernel)
+      recovered key x': dim(Sigma(x')+Sigma(x'h)) = 8 <= d ; Sigma(x')==F : True
+      END-TO-END KEM BREAK (a): RSR(E) == true E : True ; Hash(E) matches : True
+  (b) SCALE INVARIANCE  F = gamma*<1..T^7>, random gamma:
+      rank(M_W) = 7 with the SAME unscaled window (kernel nontrivial: True)
+      recovered key x' = gamma^{-1} x : Sigma(x')+Sigma(x'h) has dim 8 <= d
+      END-TO-END KEM BREAK (b): RSR(E) == true E : True ; Hash(E) matches : True
+  (c) MONOMIAL WINDOW  F = gamma*<T^j : j in J>, |J|=8, J=[10, 16, 20, 41, 51, 56, 61, 62]
+      rank(M_W) = 7 (kernel nontrivial: True)
+      END-TO-END KEM BREAK (c): RSR(E) == true E : True ; Hash(E) matches : True
+  (d) D = d+3 = 11 window <1..T^10>, F a random d-dim subspace of it:
+      M_W is 56x11, rank = 10, kernel dim = 1 (>=1 expected)
+  (e) NEGATIVE CONTROL: 6/6 uniformly-random-F ROLLO-I keys give rank(M_W)=d
+      i.e. TRIVIAL kernel => no false positive.            [3.71s]
+  (f) NEGATIVE CONTROL: 6/6 uniformly RANDOM h in R give rank(M_W)=d (rejected)
+      total wall clock for ROLLO-I-128 : 8.57s
+
+--- ROLLO-I-192 : (m,n,r,d) = (79,97,8,8) ---
+  (a) F = <1,T,...,T^7>  (dim d=8) :  M_W is 71x8 over GF(2^97)
+      rank(M_W) = 7  (< d=8  =>  nontrivial kernel)
+      recovered key x': dim(Sigma(x')+Sigma(x'h)) = 8 <= d ; Sigma(x')==F : True
+      END-TO-END KEM BREAK (a): RSR(E) == true E : True ; Hash(E) matches : True
+  (b) SCALE INVARIANCE  F = gamma*<1..T^7>, random gamma:
+      rank(M_W) = 7 with the SAME unscaled window (kernel nontrivial: True)
+      recovered key x' = gamma^{-1} x : Sigma(x')+Sigma(x'h) has dim 8 <= d
+      END-TO-END KEM BREAK (b): RSR(E) == true E : True ; Hash(E) matches : True
+  (c) MONOMIAL WINDOW  F = gamma*<T^j : j in J>, |J|=8, J=[10, 16, 40, 61, 62, 68, 72, 73]
+      rank(M_W) = 7 (kernel nontrivial: True)
+      END-TO-END KEM BREAK (c): RSR(E) == true E : True ; Hash(E) matches : True
+  (d) D = d+3 = 11 window <1..T^10>, F a random d-dim subspace of it:
+      M_W is 68x11, rank = 10, kernel dim = 1 (>=1 expected)
+  (e) NEGATIVE CONTROL: 6/6 uniformly-random-F ROLLO-I keys give rank(M_W)=d
+      i.e. TRIVIAL kernel => no false positive.            [6.50s]
+  (f) NEGATIVE CONTROL: 6/6 uniformly RANDOM h in R give rank(M_W)=d (rejected)
+      total wall clock for ROLLO-I-192 : 13.81s
+
+--- ROLLO-I-256 : (m,n,r,d) = (97,113,9,9) ---
+  (a) F = <1,T,...,T^8>  (dim d=9) :  M_W is 88x9 over GF(2^113)
+      rank(M_W) = 8  (< d=9  =>  nontrivial kernel)
+      recovered key x': dim(Sigma(x')+Sigma(x'h)) = 9 <= d ; Sigma(x')==F : True
+      END-TO-END KEM BREAK (a): RSR(E) == true E : True ; Hash(E) matches : True
+  (b) SCALE INVARIANCE  F = gamma*<1..T^8>, random gamma:
+      rank(M_W) = 8 with the SAME unscaled window (kernel nontrivial: True)
+      recovered key x' = gamma^{-1} x : Sigma(x')+Sigma(x'h) has dim 9 <= d
+      END-TO-END KEM BREAK (b): RSR(E) == true E : True ; Hash(E) matches : True
+  (c) MONOMIAL WINDOW  F = gamma*<T^j : j in J>, |J|=9, J=[10, 16, 61, 62, 68, 72, 73, 82, 86]
+      rank(M_W) = 8 (kernel nontrivial: True)
+      END-TO-END KEM BREAK (c): RSR(E) == true E : True ; Hash(E) matches : True
+  (d) D = d+3 = 12 window <1..T^11>, F a random d-dim subspace of it:
+      M_W is 85x12, rank = 11, kernel dim = 1 (>=1 expected)
+  (e) NEGATIVE CONTROL: 6/6 uniformly-random-F ROLLO-I keys give rank(M_W)=d
+      i.e. TRIVIAL kernel => no false positive.            [8.36s]
+  (f) NEGATIVE CONTROL: 6/6 uniformly RANDOM h in R give rank(M_W)=d (rejected)
+      total wall clock for ROLLO-I-256 : 19.87s
+
+==============================================================================
+PART 3.  EXHAUSTIVE negative control at small parameters
+         (m=9, n=11, d=2, gcd=1 : ALL 86530 two-dimensional F are enumerated)
+==============================================================================
+  POSITIVE : genuine weak key, rank(M_W)=1  (need < d=2)
+  EXHAUSTIVE NEGATIVE : enumerated ALL 43435 two-dimensional F2-subspaces F of GF(2^9);
+      number admitting a nonzero x with Supp(x),Supp(xh) subseteq F : 0
+      => a uniformly random h admits NO ROLLO-I key of support dimension 2.
+      (predicted count = #F * 2^{-n(m-2d)} = 43435 * 2^-55 = 1.21e-12)   [7.9s]
+
+==============================================================================
+PART 4.  Exact weak-key fractions (Gaussian binomials, exact big integers)
+==============================================================================
+  For a fixed known D-dim window W the covered class is
+     W_D(W) = { F in Gr_d(K) : exists gamma in K*,  F subseteq gamma*W }.
+  Scale invariance (T3) means ONE window covers all 2^m-1 scalings at once.
+
+  instance         m   d     D | log2 |Gr_d(K)| log2 |W_D(W)|  log2 frac 
+  ROLLO-I-128     67   8     8 |         473.79          67.00     -406.8
+  ROLLO-I-192     79   8     8 |         569.79          79.00     -490.8
+  ROLLO-I-256     97   9     9 |         793.79          97.00     -696.8
+
+  Upper bound for D > d (each gamma contributes [D choose d]_2 subspaces):
+     D= 8 : log2 |W_D| <=    67.00   log2 fraction <=   -406.79   (window matrix 59x8)
+     D= 9 : log2 |W_D| <=    76.00   log2 fraction <=   -397.79   (window matrix 58x9)
+     D=10 : log2 |W_D| <=    84.41   log2 fraction <=   -389.38   (window matrix 57x10)
+     D=13 : log2 |W_D| <=   108.74   log2 fraction <=   -365.05   (window matrix 54x13)
+     D=16 : log2 |W_D| <=   132.78   log2 fraction <=   -341.01   (window matrix 51x16)
+     D=33 : log2 |W_D| <=   268.79   log2 fraction <=   -205.00   (window matrix 34x33)
+
+==============================================================================
+PART 5.  T6 -- Window Covering Bound (why this is inherently a WEAK-KEY attack)
+==============================================================================
+  Any family Fm of D-dim windows that contains, for EVERY F in Gr_d(K), at least
+  one W with F subseteq W must have
+        |Fm|  >=  [2^m-1 choose d]_2  /  [2^(m-d) choose D-d]_2 .
+     ROLLO-I-128    D=9 : |Fm| >= 2^414.8  windows  (=> no sub-exponential full attack)
+     ROLLO-I-192    D=9 : |Fm| >= 2^498.8  windows  (=> no sub-exponential full attack)
+     ROLLO-I-256    D=10 : |Fm| >= 2^705.8  windows  (=> no sub-exponential full attack)
+
+==============================================================================
+PART 6.  T9 -- DFR structure: dim(EF) profile at the real parameters
+==============================================================================
+  ROLLO spec v2.0 Prop 2.4.3:  DFR ~ q^{-(d-1)(m-r'-r)} + q^{-(n-r'+1)},  r'=dim EF.
+  Both exponents are INCREASING in r', so the DFR is MAXIMISED at the generic
+  r' = r*d.  Low-dimension F*E intersections therefore make decryption MORE
+  reliable, not less -- the opposite of a DFR-amplification weakness.
+
+  instance         m   n   r    d | term1     term2     DFR(spec) log2 Pr[r'<rd]
+  ROLLO-I-128     67  83   7    8 | 2^-28     2^-28     2^-28     2^-11      
+  ROLLO-I-192     79  97   8    8 | 2^-49     2^-34     2^-34     2^-15      
+  ROLLO-I-256     97 113   9    9 | 2^-56     2^-33     2^-33     2^-16      
+
+  (Predicted log2 Pr[dim<EF> < r*d] = -(m - r*d); verified by simulation below.)
+  SIMULATION ROLLO-I-128: 5/4000 random (F,E) pairs have dim<EF> < r*d = 56
+      predicted 0.0005 = 2^-11 ;   observed rate 0.00125      [8.0s]
+
+==============================================================================
+SUMMARY
+==============================================================================
+   ('ROLLO-I-128', 'bigD')                  : PASS
+   ('ROLLO-I-128', 'frob')                  : PASS
+   ('ROLLO-I-128', 'lowdeg')                : PASS
+   ('ROLLO-I-128', 'monomial')              : PASS
+   ('ROLLO-I-128', 'neg')                   : PASS
+   ('ROLLO-I-128', 'negrand')               : PASS
+   ('ROLLO-I-128', 'scaled')                : PASS
+   ('ROLLO-I-192', 'bigD')                  : PASS
+   ('ROLLO-I-192', 'frob')                  : PASS
+   ('ROLLO-I-192', 'lowdeg')                : PASS
+   ('ROLLO-I-192', 'monomial')              : PASS
+   ('ROLLO-I-192', 'neg')                   : PASS
+   ('ROLLO-I-192', 'negrand')               : PASS
+   ('ROLLO-I-192', 'scaled')                : PASS
+   ('ROLLO-I-256', 'bigD')                  : PASS
+   ('ROLLO-I-256', 'frob')                  : PASS
+   ('ROLLO-I-256', 'lowdeg')                : PASS
+   ('ROLLO-I-256', 'monomial')              : PASS
+   ('ROLLO-I-256', 'neg')                   : PASS
+   ('ROLLO-I-256', 'negrand')               : PASS
+   ('ROLLO-I-256', 'scaled')                : PASS
+   ('exhaustive', 'neg')                    : PASS
+   ('stab', 5)                              : PASS
+   ('stab', 7)                              : PASS
+
+OVERALL: ALL CHECKS PASS

@@ -1,0 +1,32 @@
+patched build: 25 verified edits
+== parameter set (D,tau) = (13,10), artifact asiacrypt-2025-a10
+  PASS  unmodified artifact, basic: size                     2978 B (paper Table: 2978 B) verify=1
+  PASS  masked artifact,      basic: size                    3267 B   delta = +289 B   verify=1
+  PASS    predicted delta from the artifact's own bit packing +289 B
+  PASS  unmodified artifact, mm: size                        2658 B (paper Table: 2658 B) verify=1
+  PASS  masked artifact,      mm: size                       2947 B   delta = +289 B   verify=1
+  PASS    predicted delta from the artifact's own bit packing +289 B
+-- Section 4's recover_key.py, unmodified, against dump_plain:
+     record 14: rank 256 -> KEY RECOVERED, matches the artifact's SecX: True
+     record 15: rank 255 -> KEY RECOVERED, matches the artifact's SecX: True
+   16 record(s): recovered 16, of which correct 16; rank range 255..256
+   VERDICT: the attack recovers the key on every record
+-- Section 4's recover_key.py, unmodified, against dump_masked:
+     record 14: rank 256 -> NO CANDIDATE (system inconsistent)
+     record 15: rank 255 -> NO CANDIDATE (system inconsistent)
+   16 record(s): recovered 0, of which correct 0; rank range 252..256
+   VERDICT: the attack fails on every record
+-- pooled key leakage from the masked build:
+   16 record(s) available; pooling over m in [1, 2, 4, 16]
+     m= 1 | masked model:   257 eq,   513 unknowns, rank   257, deficiency  256 (predicted 256) | unmasked model:   257 eq, 256 unknowns, rank 256, deficiency   0
+     m= 2 | masked model:   514 eq,   770 unknowns, rank   514, deficiency  256 (predicted 256) | unmasked model:   514 eq, 256 unknowns, rank 256, deficiency   0
+     m= 4 | masked model:  1028 eq,  1284 unknowns, rank  1028, deficiency  256 (predicted 256) | unmasked model:  1028 eq, 256 unknowns, rank 256, deficiency   0
+     m=16 | masked model:  4112 eq,  4368 unknowns, rank  4112, deficiency  256 (predicted 256) | unmasked model:  4112 eq, 256 unknowns, rank 256, deficiency   0
+     keys admitted by the pooled transcript (200 random keys, m=16): masked model 200/200, unmasked model 0/200
+     separation: 100.0% vs 0.0% -- the mask takes the transcript from excluding every wrong key to excluding none, i.e. 0 bits of key information at every m
+  PASS  false witness, c_ok_forge -> verifier says           0 (want 0)
+  PASS  false witness, c_bad_nof -> verifier says            0 (want 0)
+  PASS  false witness, c_bad_forge -> verifier says          1 (want 1)
+  PASS  false witness, c_false_only -> verifier says         0 (want 0)
+
+RESULT: SUCCESS

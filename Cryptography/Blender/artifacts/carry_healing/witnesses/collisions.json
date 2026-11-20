@@ -1,0 +1,49 @@
+[
+  {
+    "id": "24B_std_iv_6word",
+    "variant": 256,
+    "bytes": 24,
+    "category": "Standard-IV Global Minimum (24 B, 6 words)",
+    "m1_hex": "2d0f9baed58c8332feaed2c6274dfa3eccca0d99b31c8466",
+    "m2_hex": "2d0f9baed58c8332feaed2c6274dfa3e330416664ce37b99",
+    "digest_hex": "4dbdaf9d59fbdac4f0721cfd96a6eaa6cf7da4b0e72ef6d7516c931233c03ff5"
+  },
+  {
+    "id": "24B_std_iv_lattice_a",
+    "variant": 256,
+    "bytes": 24,
+    "category": "Standard-IV Global Minimum (24 B, Pure-C Byte-Lattice Solver)",
+    "m1_hex": "dbd024583fee72ce2942ef750eb5d267ca7dd513e0efff43",
+    "m2_hex": "dbd024583fee72ce2942ef750eb5d2678b5dd59b1f1000bc",
+    "digest_hex": "494476b1f7ef64f3ee5046f04d1a18809ae085556eb9d2a0d53e2f11f8e82d8d"
+  },
+  {
+    "id": "24B_std_iv_lattice_b",
+    "variant": 256,
+    "bytes": 24,
+    "category": "Standard-IV Global Minimum (24 B, Pure-C Fast Seed 0.057s)",
+    "m1_hex": "66b2d21e26d2d06c6eb3e7e2f5e97fe5e367af98dfff7fc1",
+    "m2_hex": "66b2d21e26d2d06c6eb3e7e2f5e97fe5a267af1b2000803e",
+    "digest_hex": "3dab8fdaf25bc778e60ea5c22b332f57875003724fb29615aedbf749fde750ee"
+  },
+  {
+    "id": "36B_chosen_prefix_bob_k3",
+    "variant": 256,
+    "bytes": 36,
+    "prefix_ascii": "Dear Bob, wire $",
+    "category": "Chosen-Prefix Collision (36 B, 3-Round Prefix Steering)",
+    "m1_hex": "4465617220426f622c207769726520243b3b0c1861f200be53811121852bbf00efd219c2",
+    "m2_hex": "4465617220426f622c207769726520243b3b0c1861f200be5381112164d1f284102de63d",
+    "digest_hex": "6b6c36da8ad5f932d384394af95eadf64de470977245367e3fa168ac835fd2b2"
+  },
+  {
+    "id": "40B_chosen_prefix_bob_lattice",
+    "variant": 256,
+    "bytes": 40,
+    "prefix_ascii": "Dear Bob, wire $",
+    "category": "Chosen-Prefix Collision (40 B, Pure-C 4-Round Byte-Lattice Solver)",
+    "m1_hex": "4465617220426f622c20776972652024b89c419ad38fd20e65c9a79c84bd45f046bb10bae0fef7bf",
+    "m2_hex": "4465617220426f622c20776972652024b89c419ad38fd20e65c9a79c84bd45f007b9003a1f010840",
+    "digest_hex": "8d5ee26f516017afe572029ec9fa75ee9b242a9a27cc73a2e4cec873578da3f8"
+  }
+]

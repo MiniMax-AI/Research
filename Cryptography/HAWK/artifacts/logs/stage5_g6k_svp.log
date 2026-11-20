@@ -1,0 +1,10 @@
+chain/g6k_tour.py:62: UserWarning: Dimension of lattice is larger than maximum supported. To fix this warning, change the value of MAX_SIEVING_DIM in siever.h and recompile.
+  g=Siever(A, SieverParams(threads=threads))
+[    2.4s cpu     2.4s] after LLL ratio=72768
+[   91.3s cpu    88.0s] tour bs=40 88.9s ratio=57524
+[  234.9s cpu   230.9s] tour bs=50 143.6s ratio=36216
+[  451.2s cpu   446.1s] tour bs=60 216.3s ratio=19416.5
+[  784.4s cpu   777.9s] tour bs=70 333.2s ratio=8979.21
+[ 1478.5s cpu  1469.5s] tour bs=80 694.1s ratio=0.999625
+[ 1478.5s cpu  1469.5s] TARGET REACHED
+RESULT: SUCCESS

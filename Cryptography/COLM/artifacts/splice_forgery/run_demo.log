@@ -1,0 +1,353 @@
+=== 1. Building CAESAR SUPERCOP and 2024 J. Cryptol. COLM binaries ===
+  built: splice0 (colm0v1/ref), splice127 (colm127v1/ref), joc128 (AES-COLM_0-128), joc256 (AES-COLM_0-256), aes_kat, onequery
+
+=== 2. FIPS-197 Known-Answer Test for AES-128 ===
+FIPS197 ct = 69c4e0d86a7b0430d8cdb78070b4c55a
+expect     = 69c4e0d86a7b0430d8cdb78070b4c55a
+roundtrip  = OK
+
+=== 3. Four Two-Query Encryption-Only Splice Variants on COLM_0 (colm0v1/ref) ===
+-------------------------------------------------------------------
+== COLM splice forgery -- variant 'fade' -- implementation tag stride 0 ==
+message 1: l1 = 130 blocks (2080 bytes; last block 16 byte(s) -- COMPLETE), AD1 = 32 bytes, no intermediate tags
+splice index set I0 = {1,2,3,8,129}   [derived at run time from GF(2^128)]
+queries: 2 ENCRYPTION, 0 decryption, 0 verification, 0 RUP.  nonces distinct (nonce-respecting).
+addendum Theorem 2 at q=2, s=1, a=2, l=130 : sigma=396 sigma_auth=398
+  its own bound  9*sigma_auth^2/2^n + s/2^n = 4.189571e-33 = 2^-107.56
+  measured forging advantage                = 1  (deterministic)
+
+KAT-1 honest round trip of the implementation's own ciphertext : PASS (ret=0 mlen=2080, clen=2096)
+KAT-2 one flipped ciphertext bit is REJECTED                   : PASS (ret=-1)
+      common ciphertext prefix of the two queries: 0 bytes = 0 blocks
+      forgery non-trivial (differs from query 1's output)        : yes
+      forgery tag block == query 1's tag block (verbatim reuse)  : yes  <-- addendum Lemma 3 'good forge view' condition 2 violated DELIBERATELY
+      crypto_aead_decrypt(forgery) ret=0 -> ACCEPTED
+      recovered plaintext differs from the queried message in 2071 / 2080 bytes (so the forgery is not a replay)
+
+trials = 25   forgeries ACCEPTED = 25   trivial = 0   tag-block reused = 25
+negative control 1 (DROP the middle element of I0)   accepted 0 / 25
+negative control 2 (ADD one block not in I0)         accepted 0 / 25
+negative control 3 (RANDOM 5-block splice sets)    accepted 0 / 200   <- statistical baseline
+EXPECTATION for this build: every splice is ACCEPTED, every control REJECTED
+RESULT: SUCCESS
+-------------------------------------------------------------------
+== COLM splice forgery -- variant 'transplant' -- implementation tag stride 0 ==
+message 1: l1 = 129 blocks (2064 bytes; last block 16 byte(s) -- COMPLETE), AD1 = 32 bytes, no intermediate tags
+splice index set I0 = {1,3,4,5,6,7,129,130}   [derived at run time from GF(2^128)]
+queries: 2 ENCRYPTION, 0 decryption, 0 verification, 0 RUP.  nonces distinct (nonce-respecting).
+addendum Theorem 2 at q=2, s=1, a=2, l=129 : sigma=393 sigma_auth=395
+  its own bound  9*sigma_auth^2/2^n + s/2^n = 4.126649e-33 = 2^-107.58
+  measured forging advantage                = 1  (deterministic)
+
+KAT-1 honest round trip of the implementation's own ciphertext : PASS (ret=0 mlen=2064, clen=2080)
+KAT-2 one flipped ciphertext bit is REJECTED                   : PASS (ret=-1)
+      common ciphertext prefix of the two queries: 0 bytes = 0 blocks
+      forgery non-trivial (differs from query 1's output)        : yes
+      forgery tag block == query 1's tag block (verbatim reuse)  : no (tag transplanted)
+      crypto_aead_decrypt(forgery) ret=0 -> ACCEPTED
+      recovered plaintext differs from the queried message in 2055 / 2064 bytes (so the forgery is not a replay)
+
+trials = 25   forgeries ACCEPTED = 25   trivial = 0   tag-block reused = 0
+negative control 1 (DROP the middle element of I0)   accepted 0 / 25
+negative control 2 (ADD one block not in I0)         accepted 0 / 25
+negative control 3 (RANDOM 8-block splice sets)    accepted 0 / 200   <- statistical baseline
+EXPECTATION for this build: every splice is ACCEPTED, every control REJECTED
+RESULT: SUCCESS
+-------------------------------------------------------------------
+== COLM splice forgery -- variant 'misuse' -- implementation tag stride 0 ==
+message 1: l1 = 131 blocks (2096 bytes; last block 16 byte(s) -- COMPLETE), AD1 = 32 bytes, no intermediate tags
+splice index set I0 = {2,3,4,9,130}   [derived at run time from GF(2^128)]
+queries: 2 ENCRYPTION, 0 decryption, 0 verification, 0 RUP.  nonces REPEATED (nonce misuse).
+addendum Theorem 2 at q=2, s=1, a=2, l=131 : sigma=399 sigma_auth=401
+  its own bound  9*sigma_auth^2/2^n + s/2^n = 4.252968e-33 = 2^-107.54
+  measured forging advantage                = 1  (deterministic)
+
+KAT-1 honest round trip of the implementation's own ciphertext : PASS (ret=0 mlen=2096, clen=2112)
+KAT-2 one flipped ciphertext bit is REJECTED                   : PASS (ret=-1)
+      common ciphertext prefix of the two queries: 0 bytes = 0 blocks
+      forgery non-trivial (differs from query 1's output)        : yes
+      forgery tag block == query 1's tag block (verbatim reuse)  : yes  <-- addendum Lemma 3 'good forge view' condition 2 violated DELIBERATELY
+      crypto_aead_decrypt(forgery) ret=0 -> ACCEPTED
+      recovered plaintext differs from the queried message in 2073 / 2096 bytes (so the forgery is not a replay)
+
+trials = 25   forgeries ACCEPTED = 25   trivial = 0   tag-block reused = 25
+negative control 1 (DROP the middle element of I0)   accepted 0 / 25
+negative control 2 (ADD one block not in I0)         accepted 0 / 25
+negative control 3 (RANDOM 5-block splice sets)    accepted 0 / 200   <- statistical baseline
+EXPECTATION for this build: every splice is ACCEPTED, every control REJECTED
+RESULT: SUCCESS
+-------------------------------------------------------------------
+== COLM splice forgery -- variant 'prefix' -- implementation tag stride 0 ==
+message 1: l1 = 300 blocks (4800 bytes; last block 16 byte(s) -- COMPLETE), AD1 = 16 bytes, no intermediate tags
+message 2: l2 = 400 blocks (6400 bytes; last block 16 byte(s)), AD2 = 80 bytes, plaintext agreement on blocks 1..129
+splice index set I0 = {1,2,3,8,129}   [derived at run time from GF(2^128)]
+queries: 2 ENCRYPTION, 0 decryption, 0 verification, 0 RUP.  nonces distinct (nonce-respecting).
+addendum Theorem 2 at q=2, s=1, a=1, l=300 : sigma=903 sigma_auth=905
+  its own bound  9*sigma_auth^2/2^n + s/2^n = 2.166209e-32 = 2^-105.19
+  measured forging advantage                = 1  (deterministic)
+
+KAT-1 honest round trip of the implementation's own ciphertext : PASS (ret=0 mlen=4800, clen=4816)
+KAT-2 one flipped ciphertext bit is REJECTED                   : PASS (ret=-1)
+      common ciphertext prefix of the two queries: 0 bytes = 0 blocks
+      forgery non-trivial (differs from query 1's output)        : yes
+      forgery tag block == query 1's tag block (verbatim reuse)  : yes  <-- addendum Lemma 3 'good forge view' condition 2 violated DELIBERATELY
+      crypto_aead_decrypt(forgery) ret=0 -> ACCEPTED
+      recovered plaintext differs from the queried message in 2074 / 4800 bytes (so the forgery is not a replay)
+
+trials = 25   forgeries ACCEPTED = 25   trivial = 0   tag-block reused = 25
+negative control 1 (DROP the middle element of I0)   accepted 0 / 25
+negative control 2 (ADD one block not in I0)         accepted 0 / 25
+negative control 3 (RANDOM 5-block splice sets)    accepted 0 / 200   <- statistical baseline
+EXPECTATION for this build: every splice is ACCEPTED, every control REJECTED
+RESULT: SUCCESS
+
+=== 3b. 2024 Journal of Cryptology Specification: AES-COLM_0-128 & AES-COLM_0-256 ===
+  -- AES-COLM_0-128 (J. Cryptol. 2024, Fig. 2 & Fig. 3, 128-bit key) --
+== COLM splice forgery -- variant 'fade' -- implementation tag stride 0 ==
+message 1: l1 = 130 blocks (2080 bytes; last block 16 byte(s) -- COMPLETE), AD1 = 32 bytes, no intermediate tags
+splice index set I0 = {1,2,3,8,129}   [derived at run time from GF(2^128)]
+queries: 2 ENCRYPTION, 0 decryption, 0 verification, 0 RUP.  nonces distinct (nonce-respecting).
+addendum Theorem 2 at q=2, s=1, a=2, l=130 : sigma=396 sigma_auth=398
+  its own bound  9*sigma_auth^2/2^n + s/2^n = 4.189571e-33 = 2^-107.56
+  measured forging advantage                = 1  (deterministic)
+
+KAT-1 honest round trip of the implementation's own ciphertext : PASS (ret=0 mlen=2080, clen=2096)
+KAT-2 one flipped ciphertext bit is REJECTED                   : PASS (ret=-1)
+      common ciphertext prefix of the two queries: 0 bytes = 0 blocks
+      forgery non-trivial (differs from query 1's output)        : yes
+      forgery tag block == query 1's tag block (verbatim reuse)  : yes  <-- addendum Lemma 3 'good forge view' condition 2 violated DELIBERATELY
+      crypto_aead_decrypt(forgery) ret=0 -> ACCEPTED
+      recovered plaintext differs from the queried message in 2071 / 2080 bytes (so the forgery is not a replay)
+
+trials = 25   forgeries ACCEPTED = 25   trivial = 0   tag-block reused = 25
+negative control 1 (DROP the middle element of I0)   accepted 0 / 25
+negative control 2 (ADD one block not in I0)         accepted 0 / 25
+negative control 3 (RANDOM 5-block splice sets)    accepted 0 / 200   <- statistical baseline
+EXPECTATION for this build: every splice is ACCEPTED, every control REJECTED
+RESULT: SUCCESS
+== COLM splice forgery -- variant 'transplant' -- implementation tag stride 0 ==
+message 1: l1 = 129 blocks (2064 bytes; last block 16 byte(s) -- COMPLETE), AD1 = 32 bytes, no intermediate tags
+splice index set I0 = {1,3,4,5,6,7,129,130}   [derived at run time from GF(2^128)]
+queries: 2 ENCRYPTION, 0 decryption, 0 verification, 0 RUP.  nonces distinct (nonce-respecting).
+addendum Theorem 2 at q=2, s=1, a=2, l=129 : sigma=393 sigma_auth=395
+  its own bound  9*sigma_auth^2/2^n + s/2^n = 4.126649e-33 = 2^-107.58
+  measured forging advantage                = 1  (deterministic)
+
+KAT-1 honest round trip of the implementation's own ciphertext : PASS (ret=0 mlen=2064, clen=2080)
+KAT-2 one flipped ciphertext bit is REJECTED                   : PASS (ret=-1)
+      common ciphertext prefix of the two queries: 0 bytes = 0 blocks
+      forgery non-trivial (differs from query 1's output)        : yes
+      forgery tag block == query 1's tag block (verbatim reuse)  : no (tag transplanted)
+      crypto_aead_decrypt(forgery) ret=0 -> ACCEPTED
+      recovered plaintext differs from the queried message in 2048 / 2064 bytes (so the forgery is not a replay)
+
+trials = 25   forgeries ACCEPTED = 25   trivial = 0   tag-block reused = 0
+negative control 1 (DROP the middle element of I0)   accepted 0 / 25
+negative control 2 (ADD one block not in I0)         accepted 0 / 25
+negative control 3 (RANDOM 8-block splice sets)    accepted 0 / 200   <- statistical baseline
+EXPECTATION for this build: every splice is ACCEPTED, every control REJECTED
+RESULT: SUCCESS
+  -- AES-COLM_0-256 (J. Cryptol. 2024, Fig. 2 & Fig. 3, 256-bit key) --
+== COLM splice forgery -- variant 'fade' -- implementation tag stride 0 ==
+message 1: l1 = 130 blocks (2080 bytes; last block 16 byte(s) -- COMPLETE), AD1 = 32 bytes, no intermediate tags
+splice index set I0 = {1,2,3,8,129}   [derived at run time from GF(2^128)]
+queries: 2 ENCRYPTION, 0 decryption, 0 verification, 0 RUP.  nonces distinct (nonce-respecting).
+addendum Theorem 2 at q=2, s=1, a=2, l=130 : sigma=396 sigma_auth=398
+  its own bound  9*sigma_auth^2/2^n + s/2^n = 4.189571e-33 = 2^-107.56
+  measured forging advantage                = 1  (deterministic)
+
+KAT-1 honest round trip of the implementation's own ciphertext : PASS (ret=0 mlen=2080, clen=2096)
+KAT-2 one flipped ciphertext bit is REJECTED                   : PASS (ret=-1)
+      common ciphertext prefix of the two queries: 0 bytes = 0 blocks
+      forgery non-trivial (differs from query 1's output)        : yes
+      forgery tag block == query 1's tag block (verbatim reuse)  : yes  <-- addendum Lemma 3 'good forge view' condition 2 violated DELIBERATELY
+      crypto_aead_decrypt(forgery) ret=0 -> ACCEPTED
+      recovered plaintext differs from the queried message in 2074 / 2080 bytes (so the forgery is not a replay)
+
+trials = 25   forgeries ACCEPTED = 25   trivial = 0   tag-block reused = 25
+negative control 1 (DROP the middle element of I0)   accepted 0 / 25
+negative control 2 (ADD one block not in I0)         accepted 0 / 25
+negative control 3 (RANDOM 5-block splice sets)    accepted 0 / 200   <- statistical baseline
+EXPECTATION for this build: every splice is ACCEPTED, every control REJECTED
+RESULT: SUCCESS
+== COLM splice forgery -- variant 'transplant' -- implementation tag stride 0 ==
+message 1: l1 = 129 blocks (2064 bytes; last block 16 byte(s) -- COMPLETE), AD1 = 32 bytes, no intermediate tags
+splice index set I0 = {1,3,4,5,6,7,129,130}   [derived at run time from GF(2^128)]
+queries: 2 ENCRYPTION, 0 decryption, 0 verification, 0 RUP.  nonces distinct (nonce-respecting).
+addendum Theorem 2 at q=2, s=1, a=2, l=129 : sigma=393 sigma_auth=395
+  its own bound  9*sigma_auth^2/2^n + s/2^n = 4.126649e-33 = 2^-107.58
+  measured forging advantage                = 1  (deterministic)
+
+KAT-1 honest round trip of the implementation's own ciphertext : PASS (ret=0 mlen=2064, clen=2080)
+KAT-2 one flipped ciphertext bit is REJECTED                   : PASS (ret=-1)
+      common ciphertext prefix of the two queries: 0 bytes = 0 blocks
+      forgery non-trivial (differs from query 1's output)        : yes
+      forgery tag block == query 1's tag block (verbatim reuse)  : no (tag transplanted)
+      crypto_aead_decrypt(forgery) ret=0 -> ACCEPTED
+      recovered plaintext differs from the queried message in 2057 / 2064 bytes (so the forgery is not a replay)
+
+trials = 25   forgeries ACCEPTED = 25   trivial = 0   tag-block reused = 0
+negative control 1 (DROP the middle element of I0)   accepted 0 / 25
+negative control 2 (ADD one block not in I0)         accepted 0 / 25
+negative control 3 (RANDOM 8-block splice sets)    accepted 0 / 200   <- statistical baseline
+EXPECTATION for this build: every splice is ACCEPTED, every control REJECTED
+RESULT: SUCCESS
+== COLM splice forgery -- variant 'misuse' -- implementation tag stride 0 ==
+message 1: l1 = 131 blocks (2096 bytes; last block 16 byte(s) -- COMPLETE), AD1 = 32 bytes, no intermediate tags
+splice index set I0 = {2,3,4,9,130}   [derived at run time from GF(2^128)]
+queries: 2 ENCRYPTION, 0 decryption, 0 verification, 0 RUP.  nonces REPEATED (nonce misuse).
+addendum Theorem 2 at q=2, s=1, a=2, l=131 : sigma=399 sigma_auth=401
+  its own bound  9*sigma_auth^2/2^n + s/2^n = 4.252968e-33 = 2^-107.54
+  measured forging advantage                = 1  (deterministic)
+
+KAT-1 honest round trip of the implementation's own ciphertext : PASS (ret=0 mlen=2096, clen=2112)
+KAT-2 one flipped ciphertext bit is REJECTED                   : PASS (ret=-1)
+      common ciphertext prefix of the two queries: 0 bytes = 0 blocks
+      forgery non-trivial (differs from query 1's output)        : yes
+      forgery tag block == query 1's tag block (verbatim reuse)  : yes  <-- addendum Lemma 3 'good forge view' condition 2 violated DELIBERATELY
+      crypto_aead_decrypt(forgery) ret=0 -> ACCEPTED
+      recovered plaintext differs from the queried message in 2069 / 2096 bytes (so the forgery is not a replay)
+
+trials = 25   forgeries ACCEPTED = 25   trivial = 0   tag-block reused = 25
+negative control 1 (DROP the middle element of I0)   accepted 0 / 25
+negative control 2 (ADD one block not in I0)         accepted 0 / 25
+negative control 3 (RANDOM 5-block splice sets)    accepted 0 / 200   <- statistical baseline
+EXPECTATION for this build: every splice is ACCEPTED, every control REJECTED
+RESULT: SUCCESS
+== COLM splice forgery -- variant 'prefix' -- implementation tag stride 0 ==
+message 1: l1 = 300 blocks (4800 bytes; last block 16 byte(s) -- COMPLETE), AD1 = 16 bytes, no intermediate tags
+message 2: l2 = 400 blocks (6400 bytes; last block 16 byte(s)), AD2 = 80 bytes, plaintext agreement on blocks 1..129
+splice index set I0 = {1,2,3,8,129}   [derived at run time from GF(2^128)]
+queries: 2 ENCRYPTION, 0 decryption, 0 verification, 0 RUP.  nonces distinct (nonce-respecting).
+addendum Theorem 2 at q=2, s=1, a=1, l=300 : sigma=903 sigma_auth=905
+  its own bound  9*sigma_auth^2/2^n + s/2^n = 2.166209e-32 = 2^-105.19
+  measured forging advantage                = 1  (deterministic)
+
+KAT-1 honest round trip of the implementation's own ciphertext : PASS (ret=0 mlen=4800, clen=4816)
+KAT-2 one flipped ciphertext bit is REJECTED                   : PASS (ret=-1)
+      common ciphertext prefix of the two queries: 0 bytes = 0 blocks
+      forgery non-trivial (differs from query 1's output)        : yes
+      forgery tag block == query 1's tag block (verbatim reuse)  : yes  <-- addendum Lemma 3 'good forge view' condition 2 violated DELIBERATELY
+      crypto_aead_decrypt(forgery) ret=0 -> ACCEPTED
+      recovered plaintext differs from the queried message in 2073 / 4800 bytes (so the forgery is not a replay)
+
+trials = 25   forgeries ACCEPTED = 25   trivial = 0   tag-block reused = 25
+negative control 1 (DROP the middle element of I0)   accepted 0 / 25
+negative control 2 (ADD one block not in I0)         accepted 0 / 25
+negative control 3 (RANDOM 5-block splice sets)    accepted 0 / 200   <- statistical baseline
+EXPECTATION for this build: every splice is ACCEPTED, every control REJECTED
+RESULT: SUCCESS
+
+=== 4. Length-Floor and Associated-Data Boundary Sweeps ===
+  fade at l = 130 (exact minimum)                            ACCEPTED   (expected ACCEPTED)
+  fade at l = 129 (one block below floor)                    REJECTED   (expected REJECTED)
+  fade at l = 128                                            REJECTED   (expected REJECTED)
+  fade at l = 131                                            ACCEPTED   (expected ACCEPTED)
+  fade at l = 258                                            ACCEPTED   (expected ACCEPTED)
+  transplant at l = 129 (exact minimum)                      ACCEPTED   (expected ACCEPTED)
+  transplant at l = 128 (Condition C fails)                  REJECTED   (expected REJECTED)
+  transplant at l = 130                                      ACCEPTED   (expected ACCEPTED)
+  transplant at l = 200                                      ACCEPTED   (expected ACCEPTED)
+  misuse, s = 1, l = 131 (exact minimum)                     ACCEPTED   (expected ACCEPTED)
+  misuse, s = 1, l = 130 (one block below)                   REJECTED   (expected REJECTED)
+  prefix, shared prefix 1..128 blocks                        REJECTED   (expected REJECTED)
+  prefix, shared prefix 1..129 blocks                        ACCEPTED   (expected ACCEPTED)
+  AD lengths |A1|=0, |A2|=0 (empty AD)                       ACCEPTED   (expected ACCEPTED)
+  AD lengths |A1|=1, |A2|=47 (unaligned AD)                  ACCEPTED   (expected ACCEPTED)
+  query 1 complete, query 2 15-byte last block               ACCEPTED   (expected ACCEPTED)
+
+=== 5. Control: COLM_127 (tau = 127 Intermediate Tags) Rejects All Splices ===
+== COLM splice forgery -- variant 'fade' -- implementation tag stride 127 ==
+message 1: l1 = 130 blocks (2080 bytes; last block 16 byte(s) -- COMPLETE), AD1 = 32 bytes
+           h = 1 intermediate tag(s) for message 1
+splice index set I0 = {1,2,3,8,129}   [derived at run time from GF(2^128)]
+queries: 2 ENCRYPTION, 0 decryption, 0 verification, 0 RUP.  nonces distinct (nonce-respecting).
+
+KAT-1 honest round trip of the implementation's own ciphertext : PASS (ret=0 mlen=2080, clen=2112)
+KAT-2 one flipped ciphertext bit is REJECTED                   : PASS (ret=-1)
+      common ciphertext prefix of the two queries: 0 bytes = 0 blocks
+      forgery non-trivial (differs from query 1's output)        : yes
+      forgery tag block == query 1's tag block (verbatim reuse)  : yes  <-- addendum Lemma 3 'good forge view' condition 2 violated DELIBERATELY
+      crypto_aead_decrypt(forgery) ret=-1 -> rejected
+
+trials = 25   forgeries ACCEPTED = 0   trivial = 0   tag-block reused = 25
+negative control 1 (DROP the middle element of I0)   accepted 0 / 25
+negative control 2 (ADD one block not in I0)         accepted 0 / 25
+negative control 3 (RANDOM 5-block splice sets)    accepted 0 / 200   <- statistical baseline
+EXPECTATION for this build: every splice is REJECTED (COLM_127 control)
+RESULT: SUCCESS
+== COLM splice forgery -- variant 'transplant' -- implementation tag stride 127 ==
+message 1: l1 = 129 blocks (2064 bytes; last block 16 byte(s) -- COMPLETE), AD1 = 32 bytes
+           h = 1 intermediate tag(s) for message 1
+splice index set I0 = {1,3,4,5,6,7,129,130}   [derived at run time from GF(2^128)]
+queries: 2 ENCRYPTION, 0 decryption, 0 verification, 0 RUP.  nonces distinct (nonce-respecting).
+
+KAT-1 honest round trip of the implementation's own ciphertext : PASS (ret=0 mlen=2064, clen=2096)
+KAT-2 one flipped ciphertext bit is REJECTED                   : PASS (ret=-1)
+      common ciphertext prefix of the two queries: 0 bytes = 0 blocks
+      forgery non-trivial (differs from query 1's output)        : yes
+      forgery tag block == query 1's tag block (verbatim reuse)  : no (tag transplanted)
+      crypto_aead_decrypt(forgery) ret=-1 -> rejected
+
+trials = 25   forgeries ACCEPTED = 0   trivial = 0   tag-block reused = 0
+negative control 1 (DROP the middle element of I0)   accepted 0 / 25
+negative control 2 (ADD one block not in I0)         accepted 0 / 25
+negative control 3 (RANDOM 8-block splice sets)    accepted 0 / 200   <- statistical baseline
+EXPECTATION for this build: every splice is REJECTED (COLM_127 control)
+RESULT: SUCCESS
+== COLM splice forgery -- variant 'misuse' -- implementation tag stride 127 ==
+message 1: l1 = 131 blocks (2096 bytes; last block 16 byte(s) -- COMPLETE), AD1 = 32 bytes
+           h = 1 intermediate tag(s) for message 1
+splice index set I0 = {2,3,4,9,130}   [derived at run time from GF(2^128)]
+queries: 2 ENCRYPTION, 0 decryption, 0 verification, 0 RUP.  nonces REPEATED (nonce misuse).
+
+KAT-1 honest round trip of the implementation's own ciphertext : PASS (ret=0 mlen=2096, clen=2128)
+KAT-2 one flipped ciphertext bit is REJECTED                   : PASS (ret=-1)
+      common ciphertext prefix of the two queries: 0 bytes = 0 blocks
+      forgery non-trivial (differs from query 1's output)        : yes
+      forgery tag block == query 1's tag block (verbatim reuse)  : yes  <-- addendum Lemma 3 'good forge view' condition 2 violated DELIBERATELY
+      crypto_aead_decrypt(forgery) ret=-1 -> rejected
+
+trials = 25   forgeries ACCEPTED = 0   trivial = 0   tag-block reused = 25
+negative control 1 (DROP the middle element of I0)   accepted 0 / 25
+negative control 2 (ADD one block not in I0)         accepted 0 / 25
+negative control 3 (RANDOM 5-block splice sets)    accepted 0 / 200   <- statistical baseline
+EXPECTATION for this build: every splice is REJECTED (COLM_127 control)
+RESULT: SUCCESS
+
+=== 6. Cross-Implementation Verification (SUPERCOP ref/aesni4/aesni8 & J. Cryptol. 2024) ===
+  -- cross-checking colm0v1/ref against J. Cryptol. 2024 Fig. 2/3 (AES-COLM_0-128) --
+  identical ciphertexts from the two builds : 25 / 25
+  AES-NI build round trips its own output   : 25 / 25
+  forgery ACCEPTED by the reference build  : 25 / 25
+  forgery ACCEPTED by the AES-NI build     : 25 / 25
+XCHECK: PASS
+  -- cross-checking colm0v1/ref against colm0v1/aesni4 --
+  identical ciphertexts from the two builds : 25 / 25
+  AES-NI build round trips its own output   : 25 / 25
+  forgery ACCEPTED by the reference build  : 25 / 25
+  forgery ACCEPTED by the AES-NI build     : 25 / 25
+XCHECK: PASS
+  -- cross-checking colm0v1/ref against colm0v1/aesni8 --
+  identical ciphertexts from the two builds : 25 / 25
+  AES-NI build round trips its own output   : 25 / 25
+  forgery ACCEPTED by the reference build  : 25 / 25
+  forgery ACCEPTED by the AES-NI build     : 25 / 25
+XCHECK: PASS
+
+=== 7. One-Query Baseline Strategies (All 8 Strategies Rejected) ===
+KAT honest round trip: PASS
+
+one-query strategies against COLM_0, l = 130 blocks, 25 trials
+  truncate to k blocks, keep the tag         accepted 0 / 25
+  swap two interior blocks                   accepted 0 / 25
+  duplicate one interior block               accepted 0 / 25
+  submit under a different nonce             accepted 0 / 25
+  submit under different AD                  accepted 0 / 25
+  rotate the ciphertext by one block         accepted 0 / 25
+  drop the tag block                         accepted 0 / 25
+  all-zero ciphertext                        accepted 0 / 25
+
+total acceptances across all eight strategies: 0
+
+RESULT: SUCCESS

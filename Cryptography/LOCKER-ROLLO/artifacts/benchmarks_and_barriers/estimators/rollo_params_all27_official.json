@@ -1,0 +1,248 @@
+{
+  "provenance_note": "All 27 published LOCKER (2017-11-30), ROLLO Round-2 Initial (2019-08-24), ROLLO Round-2 Revised (2020-04-21), and new2ROLLO (ASIACRYPT 2020 / ePrint 2022/1031) parameter sets. Official 2019-08-24 d-values for ROLLO-I-192 (d=7), ROLLO-I-256 (d=8), and ROLLO-II-256 (d=8) verified directly against Supporting_Documentation/rollo.pdf Tables 2, 4, 6.",
+  "sets": [
+    {
+      "family": "LOCKER (2017)",
+      "name": "LOCKER-I",
+      "m": 71,
+      "n": 83,
+      "r": 5,
+      "d": 7,
+      "sec": 128
+    },
+    {
+      "family": "LOCKER (2017)",
+      "name": "LOCKER-II",
+      "m": 101,
+      "n": 83,
+      "r": 5,
+      "d": 7,
+      "sec": 192
+    },
+    {
+      "family": "LOCKER (2017)",
+      "name": "LOCKER-III",
+      "m": 107,
+      "n": 89,
+      "r": 6,
+      "d": 8,
+      "sec": 256
+    },
+    {
+      "family": "LOCKER (2017)",
+      "name": "LOCKER-IV",
+      "m": 79,
+      "n": 101,
+      "r": 5,
+      "d": 7,
+      "sec": 128
+    },
+    {
+      "family": "LOCKER (2017)",
+      "name": "LOCKER-V",
+      "m": 97,
+      "n": 103,
+      "r": 6,
+      "d": 8,
+      "sec": 192
+    },
+    {
+      "family": "LOCKER (2017)",
+      "name": "LOCKER-VI",
+      "m": 107,
+      "n": 103,
+      "r": 6,
+      "d": 8,
+      "sec": 256
+    },
+    {
+      "family": "LOCKER (2017)",
+      "name": "LOCKER-VII",
+      "m": 83,
+      "n": 149,
+      "r": 5,
+      "d": 8,
+      "sec": 128
+    },
+    {
+      "family": "LOCKER (2017)",
+      "name": "LOCKER-VIII",
+      "m": 101,
+      "n": 149,
+      "r": 5,
+      "d": 8,
+      "sec": 192
+    },
+    {
+      "family": "LOCKER (2017)",
+      "name": "LOCKER-IX",
+      "m": 109,
+      "n": 157,
+      "r": 6,
+      "d": 9,
+      "sec": 256
+    },
+    {
+      "family": "ROLLO (2019)",
+      "name": "ROLLO-I-128 (2019)",
+      "m": 79,
+      "n": 47,
+      "r": 5,
+      "d": 6,
+      "sec": 128
+    },
+    {
+      "family": "ROLLO (2019)",
+      "name": "ROLLO-I-192 (2019)",
+      "m": 89,
+      "n": 53,
+      "r": 6,
+      "d": 7,
+      "sec": 192
+    },
+    {
+      "family": "ROLLO (2019)",
+      "name": "ROLLO-I-256 (2019)",
+      "m": 113,
+      "n": 67,
+      "r": 7,
+      "d": 8,
+      "sec": 256
+    },
+    {
+      "family": "ROLLO (2019)",
+      "name": "ROLLO-II-128 (2019)",
+      "m": 83,
+      "n": 149,
+      "r": 5,
+      "d": 8,
+      "sec": 128
+    },
+    {
+      "family": "ROLLO (2019)",
+      "name": "ROLLO-II-192 (2019)",
+      "m": 107,
+      "n": 151,
+      "r": 6,
+      "d": 8,
+      "sec": 192
+    },
+    {
+      "family": "ROLLO (2019)",
+      "name": "ROLLO-II-256 (2019)",
+      "m": 127,
+      "n": 157,
+      "r": 7,
+      "d": 8,
+      "sec": 256
+    },
+    {
+      "family": "ROLLO (2019)",
+      "name": "ROLLO-III-128 (2019)",
+      "m": 101,
+      "n": 47,
+      "r": 6,
+      "d": 5,
+      "sec": 128
+    },
+    {
+      "family": "ROLLO (2019)",
+      "name": "ROLLO-III-192 (2019)",
+      "m": 107,
+      "n": 59,
+      "r": 8,
+      "d": 6,
+      "sec": 192
+    },
+    {
+      "family": "ROLLO (2019)",
+      "name": "ROLLO-III-256 (2019)",
+      "m": 131,
+      "n": 67,
+      "r": 8,
+      "d": 7,
+      "sec": 256
+    },
+    {
+      "family": "ROLLO (2020)",
+      "name": "ROLLO-I-128 (2020)",
+      "m": 67,
+      "n": 83,
+      "r": 7,
+      "d": 8,
+      "sec": 128
+    },
+    {
+      "family": "ROLLO (2020)",
+      "name": "ROLLO-I-192 (2020)",
+      "m": 79,
+      "n": 97,
+      "r": 8,
+      "d": 8,
+      "sec": 192
+    },
+    {
+      "family": "ROLLO (2020)",
+      "name": "ROLLO-I-256 (2020)",
+      "m": 97,
+      "n": 113,
+      "r": 9,
+      "d": 9,
+      "sec": 256
+    },
+    {
+      "family": "ROLLO (2020)",
+      "name": "ROLLO-II-128 (2020)",
+      "m": 83,
+      "n": 189,
+      "r": 7,
+      "d": 8,
+      "sec": 128
+    },
+    {
+      "family": "ROLLO (2020)",
+      "name": "ROLLO-II-192 (2020)",
+      "m": 97,
+      "n": 193,
+      "r": 8,
+      "d": 8,
+      "sec": 192
+    },
+    {
+      "family": "ROLLO (2020)",
+      "name": "ROLLO-II-256 (2020)",
+      "m": 97,
+      "n": 211,
+      "r": 8,
+      "d": 9,
+      "sec": 256
+    },
+    {
+      "family": "new2ROLLO (2020)",
+      "name": "new2ROLLO-I-128",
+      "m": 73,
+      "n": 83,
+      "r": 7,
+      "d": 8,
+      "sec": 128
+    },
+    {
+      "family": "new2ROLLO (2020)",
+      "name": "new2ROLLO-I-192",
+      "m": 89,
+      "n": 97,
+      "r": 8,
+      "d": 8,
+      "sec": 192
+    },
+    {
+      "family": "new2ROLLO (2020)",
+      "name": "new2ROLLO-I-256",
+      "m": 103,
+      "n": 113,
+      "r": 9,
+      "d": 9,
+      "sec": 256
+    }
+  ]
+}
