@@ -3,7 +3,7 @@
     "id": "24B_std_iv_6word",
     "variant": 256,
     "bytes": 24,
-    "category": "Standard-IV Global Minimum (24 B, 6 words)",
+    "category": "Standard-IV Collision (24 B, 6 words)",
     "m1_hex": "2d0f9baed58c8332feaed2c6274dfa3eccca0d99b31c8466",
     "m2_hex": "2d0f9baed58c8332feaed2c6274dfa3e330416664ce37b99",
     "digest_hex": "4dbdaf9d59fbdac4f0721cfd96a6eaa6cf7da4b0e72ef6d7516c931233c03ff5"
@@ -12,7 +12,7 @@
     "id": "24B_std_iv_lattice_a",
     "variant": 256,
     "bytes": 24,
-    "category": "Standard-IV Global Minimum (24 B, Pure-C Byte-Lattice Solver)",
+    "category": "Standard-IV Collision (24 B, Pure-C Byte-Lattice Solver)",
     "m1_hex": "dbd024583fee72ce2942ef750eb5d267ca7dd513e0efff43",
     "m2_hex": "dbd024583fee72ce2942ef750eb5d2678b5dd59b1f1000bc",
     "digest_hex": "494476b1f7ef64f3ee5046f04d1a18809ae085556eb9d2a0d53e2f11f8e82d8d"
@@ -21,7 +21,7 @@
     "id": "24B_std_iv_lattice_b",
     "variant": 256,
     "bytes": 24,
-    "category": "Standard-IV Global Minimum (24 B, Pure-C Fast Seed 0.057s)",
+    "category": "Standard-IV Collision (24 B, Pure-C Fast Seed 0.057s)",
     "m1_hex": "66b2d21e26d2d06c6eb3e7e2f5e97fe5e367af98dfff7fc1",
     "m2_hex": "66b2d21e26d2d06c6eb3e7e2f5e97fe5a267af1b2000803e",
     "digest_hex": "3dab8fdaf25bc778e60ea5c22b332f57875003724fb29615aedbf749fde750ee"

@@ -6,7 +6,7 @@
  *
  * Solves BOTH:
  *   1. 24-Byte Standard-IV Full-Round Collisions (SHA-256 IV, H = 0, c1 = c2 = 0,
- *      all 32 rounds, provable 24-byte global minimum length in the 2-round family),
+ *      all 32 rounds),
  *   2. 40-Byte Chosen-Prefix Full-Round Collisions ("Dear Bob, wire $" + 16-byte
  *      steering suffix + 8-byte silent-carry/healing gadget, all 32 rounds).
  *
@@ -420,7 +420,7 @@ static int solve_2round_r8(
 
 /* =========================================================================
  * 3. Unified Parallel Pure-C 4-Round Lane-Invariant + Byte-Lattice Solver
- *    - prefix_words == 0 (I = IV_256, c1=c2=0): 24-Byte Global-Minimum Std-IV Collision
+ *    - prefix_words == 0 (I = IV_256, c1=c2=0): 24-Byte Std-IV Collision
  *    - prefix_words >= 4 (I = state(P), c1,c2): (4*prefix_words + 24)-Byte Chosen-Prefix Collision
  * ========================================================================= */
 
@@ -711,7 +711,7 @@ int main(int argc, char **argv) {
 
     if (!full_mode && !cp_only) {
         /* Fast demo mode: single-thread deterministic seed */
-        printf("\n=== [2] Live Pure-C 24-Byte Global-Minimum Standard-IV Solve (Zero SAT/SMT) ===\n");
+        printf("\n=== [2] Live Pure-C 24-Byte Standard-IV Solve (Zero SAT/SMT) ===\n");
         uint8_t m1[24], m2[24], d1[32], d2[32];
         uint64_t n_targ = 0;
         /* Fixed PRNG seed for single-thread demonstration */
